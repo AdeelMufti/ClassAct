@@ -1,0 +1,81 @@
+$brand-primary: #4393B9;
+$salmon: #FA8072;
+$danger-color: rgb(209, 91, 71);
+$icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$fa-font-path: "/bower_components/font-awesome/fonts";
+
+@import 'bootstrap-sass-official/assets/stylesheets/bootstrap';
+@import 'font-awesome/scss/font-awesome';
+
+/**
+ * App-wide Styles
+ */
+
+body {
+  padding-top: 70px;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+.salmon {
+  color: $salmon;
+}
+
+.trash { color:$danger-color; }
+
+pre {
+  overflow: auto;
+  word-break: keep-all;
+  white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  margin: 0 0 0px;
+}
+
+.classified-content-area-collapsed {
+  max-height: 155px;
+}
+.classified-content-area-expand-button {
+  color: white;
+  background-color: $salmon;
+  border-color: $salmon;
+  padding: 0px 5px;
+  font-size: 8px;
+  vertical-align: top;
+}
+
+.admin-tool-selection-header-background {
+  background-color: $state-info-bg;
+}
+
+// Component styles are injected through grunt
+// injector
+@import 'account/deregister/deregister.scss';
+@import 'account/login/login.scss';
+@import 'account/reset-password/reset-password.scss';
+@import 'account/settings/settings.scss';
+@import 'account/verify/verify.scss';
+@import 'admin/classified/admin.classified.scss';
+@import 'admin/email-digest/admin.email-digest.scss';
+@import 'admin/miscellaneous/admin.miscellaneous.scss';
+@import 'admin/user/admin.user.scss';
+@import 'main/about/about.scss';
+@import 'main/main.scss';
+@import 'main/post-classified/post-classified.scss';
+@import 'main/view-classified/view-classified.scss';
+@import 'header/header.scss';
+@import 'modal/modal.scss';
+@import 'navbar/navbar.scss';
+// endinjector

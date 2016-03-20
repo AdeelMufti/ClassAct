@@ -1,0 +1,28 @@
+.classified-form {
+  border: 0;
+}
+
+.thumb {
+  float: left;
+  width: 100px;
+  height: auto;
+  max-height: 100px;
+  padding-right: 10px;
+}
+
+.progress {
+  display: inline-block;
+  width: 100px;
+  border: 3px groove #CCC;
+  margin-bottom: 0px !important;
+}
+
+.progress div {
+  color: white;
+  font-weight: bold;
+  font-size: smaller;
+  background: $brand-primary;
+  width: 0;
+}
+
+.trash { color:$danger-color; }

@@ -1,0 +1,60 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div ng-include="'components/header/header.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="page-header">{{ 'CLASSIFIEDS' | translate }}</h1>
+    </div>
+
+    <div class="col-sm-3 responsive-label-alignment">
+      <h4 class="no-margins">{{'SELECT_CATEGORIES' | translate}}:</h4>
+    </div>
+    <div class="col-sm-9"
+         id="multiSelectCategories"
+         isteven-multi-select
+         input-model="multiSelectCategoriesInputModel"
+         output-model="multiSelectCategoriesOutputModel"
+         button-label="icon name"
+         item-label="icon name"
+         tick-property="ticked"
+         translation="multiSelectCategoriesLangage"
+         helper-elements=""
+         group-property="categoriesGroup"
+         on-item-click="multiSelectCategoriesClick(data)"
+      >
+    </div>
+    <div class="col-sm-offset-3 col-sm-9">
+      <p class="text-muted small" ng-show="multiSelectCategoriesOutputModel.length==0 || multiSelectCategoriesOutputModel.length==multiSelectCategoriesInputModel.length-2">{{'ALL_SELECTED' | translate}}</p>
+    </div>
+
+    <div class="col-sm-12">
+      <br>
+    </div>
+
+    <div class="col-sm-3 responsive-label-alignment">
+      <h4 class="no-margins">{{'SEARCH' | translate}}:</h4>
+    </div>
+    <div class="col-sm-9">
+      <div class="btn-group" style="width:250px">
+        <input type="search" name="searchKeywords" ng-model="searchKeywords" class="form-control" placeholder="{{'SEARCH_KEYWORDS'|translate}}..." ng-model-options="{ updateOn: 'default blur', debounce: { default: 1500, blur: 0 } }"
+          >
+        <span ng-click="searchKeywords=''" id="searchClear" class="glyphicon glyphicon-remove-circle"></span>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <br>
+    </div>
+
+    <div class="col-sm-12" infinite-scroll='getMorePosted()' infinite-scroll-disabled='loadingClassifieds || noMoreClassifieds' infinite-scroll-distance='1'>
+      <div ng-repeat="classified in filteredClassifieds = (postedClassifieds | orderBy:['-posted'] | filter:filterFunction)" ng-include="'app/main/view-classified/classified.html'"><div style='clear: both;'></div></div>
+    </div>
+    <div class="col-sm-12" ng-show="loadingClassifieds"><p class="text-muted">{{'LOADING_CLASSIFIEDS' | translate}}... <i class="fa fa-spinner fa-spin"></i></p></div>
+    <div class="col-sm-12 text-center"><button class="btn btn-primary" ng-disabled="noMoreClassifieds" ng-click="getMorePosted()">{{noMoreClassifieds?'END_OF_CLASSIFIEDS':'LOAD_MORE_CLASSIFIEDS' | translate}}</button></div>
+
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

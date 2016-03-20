@@ -1,0 +1,20 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div ng-include="'components/header/header.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{'ABOUT_TITLE_FULL' | translate}} {{CONSTANTS.WEBSITE_NAME}}</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12">{{'ABOUT_CLASSACT' | translate:translationData() }}</div>
+    <div class="col-sm-12"><br></div>
+    <div class="col-sm-12"><br></div>
+    <div class="col-sm-12">Add your about details here.</div>
+
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

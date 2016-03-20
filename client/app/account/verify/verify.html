@@ -1,0 +1,25 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{'VERIFICATION' | translate}}</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12"> {{ message }} </div>
+    <div class="col-sm-12" ng-show="success">
+      <ul>
+        <li>
+          {{'ACCOUNT_VERIFIED_MESSAGE' | translate}}
+        </li>
+        <li ng-show="CONSTANTS.AUTO_APPROVE_VERIFIED_USER">
+          {{'ACCOUNT_APPROVED_MESSAGE' | translate}}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

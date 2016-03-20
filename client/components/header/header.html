@@ -1,0 +1,17 @@
+<div class="container" ng-controller="HeaderCtrl" style="width:100%;padding-left:0;padding-right:0;">
+  <header class="hero-unit responsive-header-size" id="banner"
+          ng-style="{'background-image': 'url('+getRandomImage()+')',
+                     'background-repeat': 'no-repeat',
+                     'background-position': 'center'}">
+    <div class="container" id="header" style="background-image: url('/assets/images/chiwara.png');background-size: contain;background-repeat: no-repeat;background-position: right;">
+      <h1>{{CONSTANTS.WEBSITE_NAME}}</h1>
+      <p class="lead">{{'WEBSITE_TITLE' | translate}}</p>
+    </div>
+  </header>
+
+  <div class="col-sm-12 text-center">
+    <div class="btn-group">
+      <button ng-repeat="language in languages" ng-click="changeLanguage(language.key)" ng-class="{'active': isLanguageSetTo(language.key)}" class="btn btn-info btn-xs">{{language.name}} <i class="fa fa-check" ng-show="isLanguageSetTo(language.key)"></i></button>
+    </div>
+  </div>
+</div>

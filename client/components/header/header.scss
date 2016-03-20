@@ -1,0 +1,13 @@
+.responsive-header-size {
+
+  @media (min-width: $screen-sm-min) {
+    background-size: 100%;
+  }
+  @media (min-width: $screen-md-min) {
+    background-size: 80%;
+  }
+  @media (min-width: $screen-lg-min) {
+    background-size: 60%;
+  }
+
+}

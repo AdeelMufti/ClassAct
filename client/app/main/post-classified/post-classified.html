@@ -1,0 +1,229 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-12">
+      <h1 class="page-header">{{ 'POST_CLASSIFIED_TITLE' | translate }}</h1>
+    </div>
+
+    <div class="col-sm-12">
+      <b>{{'POSTING_RULES' | translate}}</b>
+      <ul>
+        <li ng-show="!isLoggedIn">
+          <mark><span class="text-danger" translate="POSTING_RULE_1_NOT_LOGGED_IN" translate-values="{signupUrl: signupUrl, loginUrl: loginUrl}"></span></mark>
+        </li>
+        <li ng-show="isLoggedIn && !currentUser.approved">
+          <mark><span class="text-danger">{{'ACCOUNT_NOT_APPROVED_MESSAGE' | translate}}</span></mark>
+        </li>
+        <li ng-show="isLoggedIn && !currentUser.approved && !currentUser.verified && CONSTANTS.AUTO_APPROVE_VERIFIED_USER">
+          <mark><span translate="NOT_VERIFIED_WITH_AUTO_APPROVE_ENABLED" translate-values="{settingsUrl: settingsUrl}"></span></mark>
+        </li>
+        <li>
+          <mark>{{'POSTING_RULE_2' | translate}}</mark>
+        </li>
+        <li>
+          <mark><span ng-bind-html="'POSTING_RULE_3' | translate"></span></mark>
+        </li>
+        <li>
+          <mark><span ng-bind-html="'POSTING_RULE_REQUIRED_FIELDS' | translate"></span></mark>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-12">
+      <form class="classified-form form-horizontal panel panel-default" name="form" novalidate>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.newClassifiedTitle.$valid && submitted,
+                                                     'has-error': form.newClassifiedTitle.$invalid && submitted }">
+          <label for="newClassifiedTitle" class="col-sm-2 control-label">{{ 'TITLE' | translate }}</label>
+          <div class="col-sm-10">
+            <input type="text" ng-maxlength="200" class="form-control" name="newClassifiedTitle"
+                   id="newClassifiedTitle" ng-model="newClassifiedTitle" placeholder="{{'NEW_CLASSIFIED_TITLE'|translate}}" required>
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedTitle.$error.required &&
+submitted">
+            {{'TITLE_REQUIRED'|translate}}
+          </p>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedTitle.$error.maxlength &&
+submitted">
+            {{'TITLE_TOO_LONG' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.newClassifiedLocation.$valid && submitted,
+                                            'has-error': form.newClassifiedLocation.$invalid && submitted }">
+          <label for="newClassifiedLocation" class="col-sm-2 control-label">{{'LOCATION' | translate}}</label>
+          <div class="col-sm-10">
+            <input type="text" ng-maxlength="200" class="form-control" name="newClassifiedLocation"
+                   id="newClassifiedLocation" ng-model="newClassifiedLocation" placeholder="{{'NEW_CLASSIFIED_LOCATION'|translate}}">
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedLocation.$error.maxlength &&
+submitted">
+            {{'LOCATION_TOO_LONG'|translate}}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.newClassifiedContact.$valid && submitted,
+                                            'has-error': form.newClassifiedContact.$invalid && submitted }">
+          <label for="newClassifiedContact" class="col-sm-2 control-label">{{'CONTACT' | translate}}</label>
+          <div class="col-sm-10">
+            <input type="text" ng-maxlength="200" class="form-control" name="newClassifiedContact"
+                   id="newClassifiedContact" ng-model="newClassifiedContact" placeholder="{{'NEW_CLASSIFIED_CONTACT'|translate}}">
+            <span class="text-muted"><small><span ng-bind-html="'POST_CLASSIFIED_CONTACT_MESSAGE' | translate"></span></small></span>
+
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedContact.$error.maxlength &&
+submitted">
+            {{'CONTACT_TOO_LONG'|translate}}
+          </p>
+        </div>
+
+        <div class="form-group required" ng-class="{ 'has-success': multiSelectCategoriesOutputModel.length>0 &&
+submitted,
+                                                     'has-error': multiSelectCategoriesOutputModel.length==0 &&
+submitted }">
+          <label for="newClassifiedCategories" class="col-sm-2 control-label">{{'CATEGORIES'|translate}}</label>
+          <div class="col-sm-10" id="newClassifiedCategories"
+               isteven-multi-select
+               input-model="multiSelectCategoriesInputModel"
+               output-model="multiSelectCategoriesOutputModel"
+               button-label="icon name"
+               item-label="icon name"
+               tick-property="ticked"
+               translation="multiSelectCategoriesLangage"
+               helper-elements=""
+               group-property="categoriesGroup"
+            >
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="multiSelectCategoriesOutputModel.length==0 &&
+submitted">
+            {{'CATEGORIES_REQUIRED' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.newClassifiedContent.$valid && submitted,
+                                            'has-error': form.newClassifiedContent.$invalid && submitted }">
+          <label for="newClassifiedContent" class="col-sm-2 control-label">{{'CONTENT' | translate}}</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" ng-maxlength="5000" name="newClassifiedContent" id="newClassifiedContent" ui-validate="{html:'validateContent($value)'}"
+                      ui-validate-watch="newClassifiedContent" ng-model="newClassifiedContent" placeholder="{{'NEW_CLASSIFIED_CONTENT'|translate}}" rows='5' required></textarea>
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedContent.$error.required &&
+submitted">
+            {{'CONTENT_REQUIRED' | translate}}
+          </p>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedContent.$error.maxlength &&
+submitted">
+            {{'CONTENT_TOO_LONG' | translate}}
+          </p>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedContent.$error.html &&
+submitted">
+            {{'CONTENT_HAS_HTML' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.newClassifiedEmail.$valid && submitted,
+                                            'has-error': form.newClassifiedEmail.$invalid && submitted }"
+             ng-show="!isLoggedIn">
+          <label for="newClassifiedEmail" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" name="newClassifiedEmail" class="form-control" id="newClassifiedEmail" ng-model="newClassifiedEmail"
+                   ng-maxlength="200" placeholder="{{'YOUR_EMAIL' | translate}}" ng-required="{{!isLoggedIn}}">
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedEmail.$error.email && submitted">
+            {{'INVALID_EMAIL' | translate}}
+          </p>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedEmail.$error.required &&
+submitted">
+            {{'EMAIL_REQUIRED' | translate}}
+          </p>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="form.newClassifiedEmail.$error.maxlength &&
+submitted">
+            {{'EMAIL_TOO_LONG' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': images.length>0,
+                                            'has-error': invalidImages.length>0}">
+          <label for="newImages" class="col-sm-2 control-label">{{'IMAGES' | translate}}</label>
+          <div class="col-sm-10">
+            <div id="newImages" class="btn btn-default btn-file"
+                 ngf-select="afterResizingImages($files)"
+                 ngf-multiple="true"
+                 ng-model="images"
+                 ngf-model-invalid="invalidImages"
+                 ngf-accept="'image/*'"
+                 ngf-pattern="'image/*'"
+                 ngf-validate="{size: {max: '21MB', min: '1KB'}, height: {min: 50}, width: {min: 50}}"
+                 ngf-max-files="10"
+                 ngf-validate-fn="validateImage($file)"
+                 ngf-keep="true"
+                 ng-model-options="{debounce:100}"
+                 ngf-before-model-change="beforeResizingImages($files)"
+                 ngf-resize="{width: 1000, height: 1000, quality: 1.0}"
+                 ngf-resize-if="$width > 1000 || $height > 1000"
+              >
+              <!--
+              -->
+              {{'SELECT_IMAGES' | translate}} <i class="fa fa-lg fa-file-image-o"></i>
+            </div>
+          </div>
+          <div class="help-block col-sm-10 col-sm-offset-2 row">
+            <div ng-repeat="image in images">
+              <div class="clearfix" ng-if="$index % 2 == 0"></div>
+              <div style="height:110px" class="col-sm-5 vertical-align-center">
+                <a class="trash" ng-click="abortUpload(image)" ng-show="image.upload != null && image.progress
+< 100 && !image.upload.aborted"><i class="fa fa-times fa-lg"></i></a>
+                <a class="trash" ng-click="removeImage($index)" ng-show="image.progress >= 100"><i class="fa fa-trash fa-lg"></i></a>
+                &nbsp;&nbsp;
+                <img ngf-thumbnail="!image.$error && image" ng-show="!image.thumbnail" class="thumb">
+                <a target="_blank" ng-href="{{getTempImageUrl(image.result)}}"><img ng-show="image && !image.$error && image.thumbnail" class="thumb" ng-src="data:image/jpg;base64,{{image.thumbnail}}"></a>
+                <div>
+                  <div class="progress" ng-show="image.progress >= 0">
+                    <div style="width:{{image.progress}}%">{{getUploadProgressString(image)}}</div>
+                  </div>
+                  <div ng-show="image.progress == 100 && image.result" align="center">
+                    <button class="btn" ng-click="rotateImage(image,'counterclockwise')" ng-disabled="image.rotationUnderway"><i class="fa fa-undo"></i></button>
+                    <button class="btn" ng-click="rotateImage(image,'clockwise')" ng-disabled="image.rotationUnderway"><i class="fa fa-repeat"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="help-block col-sm-10 col-sm-offset-2" ng-repeat="image in invalidImages">
+            <a class="trash" ng-click="removeInvalidImages()"><i class="fa fa-times fa-lg"></i></a>
+            &nbsp;
+            {{'IMAGE_NOT_UPLOADED' | translate:{name: image.name} }}: {{getError(image)}}
+          </div>
+          <div class="form-group has-error">
+            <div class="help-block col-sm-10 col-sm-offset-2" ng-show="customImageError">
+              <a class="trash" ng-click="customImageError=''"><i class="fa fa-times fa-lg"></i></a>
+              &nbsp;
+              {{customImageError}}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': formIsValid(form) && submitted,
+                                            'has-error': !formIsValid(form) && submitted }">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-lg btn-primary" ng-click="postClassified(form)" ng-disabled="imagesRelatedServerProcessingUnderway">
+              {{'SUBMIT' | translate}} <i class="fa fa-check"></i>
+            </button>
+          </div>
+          <p class="help-block col-sm-10 col-sm-offset-2" ng-show="!formIsValid(form) && submitted">
+            {{'FORM_NOT_VALID' | translate}}
+          </p>
+        </div>
+
+        <p class="help-block col-sm-10 col-sm-offset-2"> {{ message }} </p>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

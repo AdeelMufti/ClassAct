@@ -1,0 +1,158 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div ng-include="'components/header/header.html'"></div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-12">
+      <h1>{{ 'SIGN_UP' | translate }}</h1>
+    </div>
+    <div class="col-sm-12" style="margin-bottom:10px;">
+      <mark>{{'REGISTER_ACCOUNT_INFO_MSG' | translate: translationData}}</mark>
+    </div>
+    <div class="col-sm-12">
+      <form class="form" name="form" ng-submit="register(form,false)" novalidate>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                                     'has-error': form.name.$invalid && submitted }">
+          <label class="control-label">{{'NAME'|translate}}</label>
+
+          <input type="text" name="name" class="form-control" ng-model="user.name" ng-maxlength="30"
+                 required/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">
+            {{'NAME_REQUIRED'|translate}}
+          </p>
+          <p class="help-block" ng-show="form.name.$error.maxlength && submitted">
+            {{'NAME_TOO_LONG' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                            'has-error': form.email.$invalid && submitted }">
+          <label class="control-label">Email</label>
+
+          <input type="email" name="email" class="form-control" ng-model="user.email"
+                 required ng-maxlength="200"
+                 mongoose-error/>
+          <p class="help-block" ng-show="form.email.$error.email && submitted">
+            {{'INVALID_EMAIL'|translate}}
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">
+            {{'EMAIL_REQUIRED'|translate}}
+          </p>
+          <p class="help-block" ng-show="form.email.$error.mongoose && submitted">
+            {{ errors.email }}
+          </p>
+          <p class="help-block" ng-show="form.email.$error.maxlength && submitted">
+            {{'EMAIL_TOO_LONG' | translate}}
+          </p>
+        </div>
+
+        <div class="form-group required" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+          <label class="control-label">{{'PASSWORD'|translate}}</label>
+
+          <input type="password" name="password" class="form-control" ng-model="user.password"
+                 ng-minlength="3" ng-maxlength="50"
+                 required
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+            {{'PASSWORD_MIN_LENGTH'|translate}}
+          </p>
+          <p class="help-block" ng-show="form.password.$error.mongoose && submitted">
+            {{ errors.password }}
+          </p>
+          <p class="help-block" ng-show="form.password.$error.maxlength && submitted">
+            {{'PASSWORD_MAX_LENGTH'|translate}}
+          </p>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <button class="btn btn-inverse btn-lg btn-login btn-primary" type="submit">
+              {{'SIGN_UP'|translate}} <i class="fa fa-folder-open"></i>
+            </button>
+            <!--<a class="btn btn-default btn-lg btn-register" href="/login">
+              Login
+            </a>-->
+          </div>
+          <div class="col-sm-8">
+            <a class="btn btn-facebook" href="" ng-click="loginOauth('facebook')">
+              <i class="fa fa-facebook"></i> {{'CONNECT_WITH_FACEBOOK'|translate}}
+            </a>
+            <!--<a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
+              <i class="fa fa-google-plus"></i> {{'CONNECT_WITH_GOOGLE_PLUS'|translate}}
+            </a>
+            <a class="btn btn-twitter" href="" ng-click="loginOauth('twitter')">
+              <i class="fa fa-twitter"></i> {{'CONNECT_WITH_TWITTER'|translate}}
+            </a>-->
+          </div>
+        </div>
+        <email-spam-message></email-spam-message>
+        <div class="form-group has-error">
+          <p class="help-block" ng-show="form.serverErrorMessage && submitted">
+            {{'REGISTRATION_SERVER_ERROR'|translate:{message: form.serverErrorMessage} }}
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-sm-12 text-center">
+      <hr>
+      <h1>{{'OR'|translate|uppercase}}</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12">
+      <h1>{{'REGISTER_EMAIL'|translate}}</h1>
+    </div>
+    <div class="col-sm-12" style="margin-bottom:10px;">
+      <mark>{{'REGISTER_EMAIL_INFO_MSG' | translate: translationData}}</mark>
+    </div>
+    <div class="col-sm-12">
+      <form class="form" name="formEmailOnly" ng-submit="register(formEmailOnly,true)" novalidate>
+
+        <div class="form-group required" ng-class="{ 'has-success': formEmailOnly.email.$valid && emailOnlySubmitted,
+                                            'has-error': formEmailOnly.email.$invalid && emailOnlySubmitted }">
+          <label class="control-label">Email</label>
+
+          <input type="email" name="email" class="form-control" ng-model="user.emailOnly"
+                 required ng-maxlength="200"
+                 mongoose-error/>
+          <p class="help-block" ng-show="formEmailOnly.email.$error.email && emailOnlySubmitted">
+            {{'INVALID_EMAIL'|translate}}
+          </p>
+          <p class="help-block" ng-show="formEmailOnly.email.$error.required && emailOnlySubmitted">
+            {{'EMAIL_REQUIRED'|translate}}
+          </p>
+          <p class="help-block" ng-show="formEmailOnly.email.$error.mongoose && emailOnlySubmitted">
+            {{ errors.email }}
+          </p>
+          <p class="help-block" ng-show="formEmailOnly.email.$error.maxlength && emailOnlySubmitted">
+            {{'EMAIL_TOO_LONG' | translate}}
+          </p>
+        </div>
+
+        <div>
+          <button class="btn btn-inverse btn-lg btn-login btn-primary" type="submit">
+            {{'REGISTER'|translate}} <i class="fa fa-folder-open"></i>
+          </button>
+        </div>
+        <email-spam-message></email-spam-message>
+        <div class="form-group has-error">
+          <p class="help-block" ng-show="formEmailOnly.serverErrorMessage && emailOnlySubmitted">
+            {{'REGISTRATION_SERVER_ERROR'|translate:{message: formEmailOnly.serverErrorMessage} }}
+          </p>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+  <hr>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

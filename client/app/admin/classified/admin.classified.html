@@ -1,0 +1,115 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row" style="word-wrap: break-word;">
+    <div class="col-sm-12">
+      <h1 class="page-header">{{ 'ADMIN_TITLE' | translate }} - {{'CLASSIFIED' | translate}}</h1>
+    </div>
+
+    <div class="col-sm-2 responsive-label-alignment">
+      <h4 class="no-margins">{{'SELECT_FILTERS'|translate}}:</h4>
+    </div>
+    <div class="col-sm-10"
+         isteven-multi-select
+         input-model="multiSelectFiltersInputModel"
+         output-model="multiSelectFiltersOutputModel"
+         button-label="name"
+         item-label="name"
+         tick-property="ticked"
+         helper-elements=""
+         translation="multiSelectFiltersLangage"
+         group-property="filtersGroup"
+      >
+    </div>
+    <div class="col-sm-offset-2 col-sm-10">
+      <span class="text-muted small" ng-show="multiSelectFiltersOutputModel.length==0 || multiSelectFiltersOutputModel.length==multiSelectFiltersInputModel.length-2">{{'ALL_SELECTED' | translate}}</span>
+    </div>
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="btn-group">
+        <button ng-click="classifiedsFiltersInclusive=false" ng-class="{'active': !classifiedsFiltersInclusive}" class="btn btn-info btn-xs">{{'INCLUDE_ANY'|translate}} <i class="fa fa-check" ng-show="!classifiedsFiltersInclusive"></i></button>
+        <button ng-click="classifiedsFiltersInclusive=true" ng-class="{'active': classifiedsFiltersInclusive}" class="btn btn-info btn-xs">{{'INCLUDE_ALL'|translate}} <i class="fa fa-check" ng-show="classifiedsFiltersInclusive"></i></button>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <hr width="75%" style="margin-top:5px; margin-bottom:5px">
+    </div>
+
+    <div class="col-sm-2 responsive-label-alignment">
+      <h4 class="no-margins">{{'SEARCH' | translate}}:</h4>
+    </div>
+    <div class="col-sm-10">
+      <div class="btn-group" style="width:250px">
+        <input type="search" name="classifiedsSearchKeywords" ng-model="classifiedsSearchKeywords" class="form-control" placeholder="{{'SEARCH_KEYWORDS'|translate}}..." ng-model-options="{ updateOn: 'default blur', debounce: { default: 1500, blur: 0 } }">
+        <span ng-click="classifiedsSearchKeywords=''" id="searchClear" class="glyphicon glyphicon-remove-circle"></span>
+      </div>
+    </div>
+    <div class="col-sm-offset-2 col-sm-10">
+      <p class="text-muted small">{{'ADMIN_CLASSIFIEDS_SEARCH_MESSAGE'|translate}}</p>
+    </div>
+
+    <div class="col-sm-12" infinite-scroll='getMoreAll()' infinite-scroll-disabled='loadingClassifieds || noMoreClassifieds' infinite-scroll-distance='0'>
+      {{'SELECTED'|translate}}: <span class="text-danger">{{countSelected()}}</span> <b style="font-size:120%">/</b> {{'LOADED_ITEMS_THAT_MATCH_FILTERS_SEARCH'|translate}}: <span class="text-danger">{{filteredClassifieds.length}}</span>
+      <ul class="list-group">
+        <li class="list-group-item admin-tool-selection-header-background">
+          <input type="checkbox" ng-model="selectAll" ng-change="toggleSelectAll()">
+          <button class="btn btn-primary" ng-click="selectAll=!selectAll; toggleSelectAll();">{{'SELECT_ALL'|translate}}</button>
+          <small><span class="text-muted">{{'SELECT_ALL_MESSAGE'|translate}} <a ng-show="!noMoreClassifieds" ng-click="getMoreAll(0)">{{'OR'|translate}} {{'CLICK_HERE_LOAD_ALL'|translate|lowercase}}</a></span></small>
+          <span uib-dropdown>
+            <button ng-disabled="countSelected()==0" class="btn btn-danger" uib-dropdown-toggle>{{'ACTION_ON_ALL_SELECTED'|translate}} <span class="caret"></span></button>
+            <ul uib-dropdown-menu>
+              <li><a ng-click="multipleRemove()">{{'REMOVE'|translate}}</a></li>
+              <li><a ng-click="multipleUpdate('APPROVED_POSTED')">{{'SET_TO'|translate}}: {{'APPROVED_POSTED'|translate}}</a></li>
+              <li><a ng-click="multipleUpdate('NOT_APPROVED_NOT_POSTED')">{{'SET_TO'|translate}}: {{'NOT_APPROVED_NOT_POSTED'|translate}}</a></li>
+              <li><a ng-click="multipleUpdate('FLAGGED_AND_REMOVED')">{{'SET_TO'|translate}}: {{'FLAGGED_AND_REMOVED'|translate}}</a></li>
+              <li><a ng-click="multipleUpdate('NOT_FLAGGED_NOT_REMOVED')">{{'SET_TO'|translate}}: {{'NOT_FLAGGED_NOT_REMOVED'|translate}}</a></li>
+            </ul>
+          </span>
+        </li>
+        <li class="list-group-item" ng-repeat="classified in filteredClassifieds = (classifieds | orderBy:['-created'] | filter:filterFunction)" ng-click="::toggleSelect($event,classified)">
+          <div id="classifiedDiv" ng-class="{'bg-success': classifiedsSelected[classified._id]}">
+            <input type="checkbox" ng-model="classifiedsSelected[classified._id]">
+            <strong><a id="classifiedTitle" ng-href="{{::viewClassifiedUrl}}/{{::classified._id}}">{{::classified.title}}</a></strong><br>
+            <a ng-click="::expandOrCollapseClassified(classified._id)"><span class="text-muted">{{'IDENTIFIER'|translate}}: {{::classified._id}}</span> <span class="glyphicon glyphicon-triangle-bottom small" ng-show="isCollapsed(classified._id)"></span><span class="glyphicon glyphicon-triangle-top small" ng-show="!isCollapsed(classified._id)"></span></a>
+            <div uib-collapse="isCollapsed(classified._id)">
+              <div class="well well-sm">
+                <div><b>{{'REMOVE'|translate}}</b>: <a ng-click="::removeClassified(classified.title,classified)"><span class="glyphicon glyphicon-trash salmon"></span></a></div>
+                <div>
+                  <b>{{'APPROVED_POSTED'|translate}}</b>:
+                  <div class="btn-group">
+                    <button ng-click="::setFieldValue('APPROVED_POSTED','posted',true,classified)" ng-disabled="classified.posted" ng-class="{'active btn-success': classified.posted, 'btn-default': !classified.posted}" class="btn btn-xs">{{'YES'|translate}} <i class="fa fa-check" ng-show="classified.posted"></i></button>
+                    <button ng-click="::setFieldValue('NOT_APPROVED_NOT_POSTED','posted',false,classified)" ng-disabled="!classified.posted" ng-class="{'active btn-success': !classified.posted, 'btn-default': classified.posted}" class="btn btn-xs">{{'NO'|translate}} <i class="fa fa-check" ng-show="!classified.posted"></i></button>
+                  </div>
+                </div>
+                <div>
+                  <b>{{'FLAGGED_AND_REMOVED'|translate}} ({{'FROM_POSTED_LIST'|translate}})</b>:
+                  <div class="btn-group">
+                    <button ng-click="::setFieldValue('FLAGGED_AND_REMOVED','flagged',true,classified)" ng-disabled="classified.flagged" ng-class="{'active btn-success': classified.flagged, 'btn-default': !classified.flagged}" class="btn btn-xs">{{'YES'|translate}} <i class="fa fa-check" ng-show="classified.flagged"></i></button>
+                    <button ng-click="::setFieldValue('NOT_FLAGGED_NOT_REMOVED','flagged',false,classified)" ng-disabled="!classified.flagged" ng-class="{'active btn-success': !classified.flagged, 'btn-default': classified.flagged}" class="btn btn-xs">{{'NO'|translate}} <i class="fa fa-check" ng-show="!classified.flagged"></i></button>
+                  </div>
+                </div>
+                <div>
+                  <b>{{'FLAGGED_BY_USERS'|translate}}<span ng-show="!classified.flagged && classified.flaggedBy && classified.flaggedBy.length>0"> ({{'FLAGGED_BY_USERS_DETAILS'|translate|lowercase}})</span></b>:
+                  <span ng-show="!classified.flaggedBy || classified.flaggedBy.length==0">{{'NO'|translate}}</span>
+                  <div ng-show="classified.flaggedBy && classified.flaggedBy.length>0">
+                    <ul>
+                      <li ng-repeat="flaggedBy in classified.flaggedBy" class="text-muted">
+                        <b><u>IP</u>:</b> {{::flaggedBy.ipAddress}} <span ng-show="::flaggedBy.user">, <b><u>{{'USER'|translate}}</u>:</b> <u>{{'IDENTIFIER'|translate}}</u>: {{::flaggedBy.user._id}} <span ng-show="::flaggedBy.user.name"><u>{{'NAME'|translate}}</u>: {{::flaggedBy.user.name}}</span> <u>Email</u>: {{::flaggedBy.user.email}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div><b>{{'CREATED'|translate}}</b>: {{classified.created | amDateFormat:'LLLL'}}</div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-12" ng-show="loadingClassifieds"><p class="text-muted">{{'LOADING_CLASSIFIEDS' | translate}}... <i class="fa fa-spinner fa-spin"></i></p></div>
+    <div class="col-sm-12 text-center"><button class="btn btn-primary" ng-disabled="noMoreClassifieds" ng-click="getMoreAll()">{{noMoreClassifieds?'END_OF_CLASSIFIEDS':'LOAD_MORE_CLASSIFIEDS' | translate}}</button></div>
+
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

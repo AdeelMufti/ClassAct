@@ -1,0 +1,41 @@
+<div class="panel panel-primary">
+  <div class="panel-heading" style="word-wrap: break-word;">
+    <button title="{{'REMOVE'|translate}}" type="button" class="btn btn-primary btn-xs text-center pull-right" ng-show="::Auth.isLoggedIn() && (Auth.isAdmin() || Auth.getCurrentUser()._id == classified.user._id)" ng-click="::removeClassified(classified.title,classified)"><i class="fa fa-trash salmon"></i></span><br><small>{{'REMOVE'|translate}}</small></button>
+    <button title="{{'FLAG_CLASSIFIED_TEXT'|translate}}" type="button" class="btn btn-primary btn-xs text-center pull-right" ng-click="::flagClassified(classified.title,classified)" ng-disabled="::classified.flagged || (Auth.isLoggedIn() && Auth.getCurrentUser()._id == classified.user._id)"><i class="fa fa-flag salmon"></i></span><br><small>{{'FLAG'|translate}}</small></button>
+    <h3 class="no-margins"><a style="color:white;" ng-href="{{::viewClassifiedUrl}}/{{::classified._id}}">{{::classified.title}}</a></h3>
+    <div ng-show="::classified.location"><b><u>{{'LOCATION' | translate}}</u>:</b> {{::classified.location}}</div>
+    <div ng-show="::classified.contact"><b><u>{{'CONTACT' | translate}}</u>:</b> <span class="white-color-link" ng-bind-html="::classified.contact | linky"></span></div>
+    <div ng-show="::classified.categories.length"><b><u>{{'CATEGORIES' | translate}}</u>:</b> <span ng-repeat="category in classified.categories">{{::$first ? '' : ', '}}<i class="fa fa-{{::categoriesHashMap[category._id].icon}}"></i> {{"category"+category._id | translate}}</span></div>
+    <b><u>{{'POSTED' | translate}}</u>:</b> <span ng-show="::classified.posted">{{classified.posted | amDateFormat:'LLLL'}}</span><span ng-show="::(!classified.posted)">{{'NOT_POSTED'|translate}}</span>
+    <div ng-show="::classified.flagged" class="text-danger"><b>{{'FLAGGED_AND_REMOVED'|translate}}</b></div>
+    <div ng-show="::Auth.isLoggedIn() && Auth.isAdmin()">
+      <button class="btn btn-sm btn-info" ng-click="adminDetailsExpanded = !adminDetailsExpanded">{{'DETAILS_FOR_ADMIN'|translate}} <span class="glyphicon glyphicon-triangle-bottom small" ng-show="!adminDetailsExpanded"></span><span class="glyphicon glyphicon-triangle-top small" ng-show="adminDetailsExpanded"></span></button>
+      <div uib-collapse="!adminDetailsExpanded">
+        <div class="well well-sm text-muted">
+          <div><b><u>{{'IDENTIFIER' | translate}}</u>:</b> {{::classified._id}}</div>
+          <div ng-show="::classified.flaggedBy && classified.flaggedBy.length!=0"><b><u>{{'FLAGGED_BY_USERS' | translate}}<span ng-show="::!classified.flagged"> ({{'FLAGGED_BY_USERS_DETAILS'|translate|lowercase}})</span></u>:</b>
+            <ul style="margin-bottom:0px">
+              <li ng-repeat="flaggedBy in classified.flaggedBy">
+                <b><u>IP</u>:</b> {{::flaggedBy.ipAddress}} <span ng-show="::flaggedBy.user">, <b><u>{{'USER'|translate}}</u>:</b> <u>{{'IDENTIFIER'|translate}}</u>: {{::flaggedBy.user._id}} <span ng-show="::flaggedBy.user.name"><u>{{'NAME'|translate}}</u>: {{::flaggedBy.user.name}}</span> <u>Email</u>: {{::flaggedBy.user.email}}</span>
+              </li>
+            </ul>
+          </div>
+          <div><b><u>{{'CREATED' | translate}}</u>:</b> {{classified.created | amDateFormat:'LLLL'}}</div>
+          <div ng-show="::classified.user"><b><u>{{'SUBMITTED_BY_USER' | translate}}</u>:</b> <u>{{'IDENTIFIER'|translate}}</u>: {{::classified.user._id}} <span ng-show="::classified.user.name"><u>{{'NAME'|translate}}</u>: {{::classified.user.name}}</span> <u>Email</u>: {{::classified.user.email}}</div>
+          <div ng-show="::classified.email"><b><u>{{'SUBMITTED_BY_EMAIL' | translate}}</u>:</b> {{::classified.email}}</div>
+          <div><b><u>{{'IP_ADDRESS_OF_SUBMITTER'|translate}}</u>:</b> {{::classified.ipAddress}}</div>
+          <div><b><u>{{'LAST_SENT_IN_DIGEST' | translate}}</u>:</b> <span ng-show="::!classified.emailDigests || classified.emailDigests.length==0">{{'NEVER'|translate}}</span> <span ng-show="::classified.emailDigests && classified.emailDigests.length>0">{{classified.emailDigests[classified.emailDigests.length-1] | amDateFormat:'LLLL'}}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body" ng-init="contentExpanded=false">
+    <div class="col-sm-12"><pre ng-bind-html="::classified.content | linky" ng-class="{'classified-content-area-collapsed': shouldContentBeCollapsed(classified.content) && !contentExpanded}"></pre></div>
+    <div class="col-sm-12 text-center" ng-show="::shouldContentBeCollapsed(classified.content)"><button class="btn btn-xs classified-content-area-expand-button" ng-click="contentExpanded=!contentExpanded"><span class="glyphicon glyphicon-triangle-bottom small" ng-show="!contentExpanded"></span><span class="glyphicon glyphicon-triangle-top small" ng-show="contentExpanded"></span></button></div>
+    <div ng-repeat="image in classified.images" class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+          <span style="height:110px;width:110px;" class="vertical-align-center">
+            <a target="_blank" ng-href="{{::getImageUrl(classified._id, image._id)}}"><img ng-src="data:image/jpg;base64,{{::arrayBufferToBase64(image.thumbnail.data.data?image.thumbnail.data.data:image.thumbnail.data)}}"></a>
+          </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div ng-include="'components/header/header.html'"></div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-12">
+      <br>
+    </div>
+
+    <div class="col-sm-11 col-sm-offset-1" ng-show="hasPreviousState">
+      <button class="btn btn-primary" ng-click="goBack()"><i class="fa fa-backward fa-lg"></i> {{'BACK'|translate}}</button>
+    </div>
+
+
+    <div class="col-sm-12" ng-show="error">
+      <p class="lead text-danger" style="padding-top:15px; padding-bottom:15px;">{{error}}</p>
+    </div>
+
+    <div class="col-sm-12">
+      <br>
+    </div>
+
+    <div class="col-sm-12" ng-show="!error && classifieds">
+      <div ng-repeat="classified in classifieds" ng-include="'app/main/view-classified/classified.html'"><div style='clear: both;'></div></div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>
