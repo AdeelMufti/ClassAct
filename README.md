@@ -31,8 +31,8 @@
 - Testing website: http://bamakoolstaging-synappze.rhcloud.com
 - Live production website: http://www.bamakool.com 
 - Screenshots
-  * ![Screenshot 1](screenshots/screenshot1.png?raw=true "Screenshot 1")
-  * ![Screenshot 1](screenshots/screenshot2.png?raw=true "Screenshot 2")
+  * ![Screenshot 1](http://i.imgur.com/34VC44q.png "Screenshot 1")
+  * ![Screenshot 1](http://i.imgur.com/6S03t5s.png "Screenshot 2")
 
 
 ## Developer's Guide
