@@ -32,6 +32,7 @@
 - Live production website: http://www.bamakool.com 
 - Screenshots
   * ![Screenshot 1](http://i.imgur.com/34VC44q.png "Screenshot 1")
+  
   * ![Screenshot 1](http://i.imgur.com/6S03t5s.png "Screenshot 2")
 
 
