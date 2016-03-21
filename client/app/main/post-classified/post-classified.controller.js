@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('classActApp')
-  .controller('PostClassifiedCtrl', function ($scope, $translate, Auth, Classified, $rootScope, $timeout, blockUI, ClassifiedResource, $state, CONSTANTS) {
+  .controller('PostClassifiedCtrl', function ($scope, $translate, Auth, Classified, $rootScope, $timeout, blockUI, ClassifiedResource, $state, CONSTANTS, notify) {
     $scope.CONSTANTS = CONSTANTS;
 
     $scope.isLoggedIn = Auth.isLoggedIn();
@@ -248,6 +248,8 @@ angular.module('classActApp')
           }
         )
           .then( function(classified) {
+            var title = $scope.newClassifiedTitle;
+
             $scope.submitted=false;
             $scope.newClassifiedTitle = '';
             $scope.newClassifiedLocation = '';
@@ -263,9 +265,17 @@ angular.module('classActApp')
               value[ 'ticked' ] = false;
             });
             if(classified.posted)
-              $scope.message=$translate.instant('CLASSIFIED_SUBMITTED_POSTED');
+              $scope.message=$translate.instant('CLASSIFIED_SUBMITTED_POSTED',{title: title});
             else
-              $scope.message=$translate.instant('CLASSIFIED_SUBMITTED_NOT_POSTED');
+              $scope.message=$translate.instant('CLASSIFIED_SUBMITTED_NOT_POSTED',{title: title});
+            notify.config({
+              startTop:75,
+              duration:0,
+              position:'center'
+            });
+            notify({
+              messageTemplate:"<span>"+$scope.message+"</span>"
+            });
             $timeout(function () {
               $scope.message = '';
             },20000);
