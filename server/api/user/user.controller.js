@@ -204,7 +204,9 @@ exports.create = function (req, res, next) {
       else if(req.body.password && req.body.password.length>50)
         callback(new ValidationError('PASSWORD_MAX_LENGTH'));
       else
-        callback(null);
+        setTimeout(function () {
+          callback(null);
+        }, 1000);
     },
     function(callback) {
       var query  = User.where({ email: req.body.email, role: 'email' });

@@ -31,9 +31,9 @@
 - Testing website: http://bamakoolstaging-synappze.rhcloud.com
 - Live production website: http://www.bamakool.com 
 - Screenshots
-  * ![Screenshot 1](http://i.imgur.com/34VC44q.png "Screenshot 1")
+  * ![Screenshot 1](screenshots/screenshot1.png?raw=true "Screenshot 1")
   
-  * ![Screenshot 1](http://i.imgur.com/6S03t5s.png "Screenshot 2")
+  * ![Screenshot 1](screenshots/screenshot2.png?raw=true "Screenshot 2")
 
 
 ## Developer's Guide
@@ -42,7 +42,11 @@
   * (Coming soon)
     
 - Adding a new language
-  * (Coming soon)
+  * Translations exist both in the client and the server
+  * Both places you can add a language simply by adding a two letter language code (ISO 639-1, https://en.wikipedia.org/wiki/ISO_639-1). For example, en for English, or fr for French. 
+  * Be sure to copy and translate all existing keys for it to work correctly. (for example, {HELLO: "Hello"} for English, or {HELLO: "Bonjour"} for French)
+  * To add translations in the client side, edit client/app/app.js. Scroll down to the .config() section, and you'll see an object called "translations", which has two letter language codes that map to a JSON of translations for that language. To add a language with code xx, add translations['xx']={} with all the keys from the other languages copies and translated to your new language.
+  * In the client side app.js, also add 
 
 - Customizing settings
   * (Coming soon)
@@ -55,13 +59,13 @@
 
 ## User and Administrator Guide
 
-Coming soon to a GitHub near you.
+Coming soon to a GitHub near you.git checkout github
 
 
 ## Contributors
 
-Author: Adeel Mufti. The author of this project encourages contributions of code improvements, new features, bug fixes, etc., from the GitHub developer community.   
-
+**Author:** Adeel Mufti. The author of this project encourages contributions of code improvements, new features, bug fixes, etc., from the GitHub developer community.   
+**French Translations:** Christophe Perotin.
 
 ## License
 

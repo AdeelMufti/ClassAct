@@ -228,6 +228,7 @@ angular.module('classActApp')
       $scope.message = "";
       if(formIsValid(form))
       {
+        blockUI.start($translate.instant('PROCESSING')+"...");
         var categories = [];
         for(var i=0; i<$scope.multiSelectCategoriesOutputModel.length; i++)
           categories[i] = {_id: $scope.multiSelectCategoriesOutputModel[i]._id};
@@ -279,9 +280,11 @@ angular.module('classActApp')
             $timeout(function () {
               $scope.message = '';
             },20000);
+            blockUI.stop();
           })
           .catch( function(err) {
             $scope.message = $translate.instant('CLASSIFIED_POST_ERROR',{message: err.data.message});
+            blockUI.stop();
           });
       }
     };

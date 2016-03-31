@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('classActApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $window, CONSTANTS, notify, $translate, $state) {
+  .controller('SignupCtrl', function ($scope, Auth, $location, $window, CONSTANTS, notify, $translate, $state, blockUI) {
     $scope.CONSTANTS = CONSTANTS;
     $scope.user = {};
     $scope.errors = {};
@@ -23,6 +23,7 @@ angular.module('classActApp')
       }
 
       if(form.$valid) {
+        blockUI.start($translate.instant('PROCESSING')+"...");
         Auth.createUser({
           name: (emailOnly) ? null : $scope.user.name,
           email: (emailOnly) ? $scope.user.emailOnly : $scope.user.email,
@@ -30,7 +31,6 @@ angular.module('classActApp')
           language: $translate.use().substring(0,2)
         })
         .then( function() {
-
             async.waterfall(
               [
                 function(callback)
@@ -59,10 +59,12 @@ angular.module('classActApp')
                   messageTemplate:"<span>"+$translate.instant('REGISTRATION_COMPLETE') + " " + $translate.instant('ACCOUNT_NOT_VERIFIED_MESSAGE') + (Auth.isLoggedIn() && !Auth.getCurrentUser().approved && CONSTANTS.AUTO_APPROVE_VERIFIED_USER?" "+$translate.instant('NOT_VERIFIED_WITH_AUTO_APPROVE_ENABLED',{settingsUrl: $scope.settingsUrl}):"")+"</span>"
                 });
                 $location.path('/');
+                blockUI.stop();
               }
             );
           })
         .catch( function(err) {
+          blockUI.stop();
           err = err.data;
           $scope.errors = {};
 
