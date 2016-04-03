@@ -52,7 +52,7 @@
   11. Run the command **npm install**. Get a fresh cup of coffee, sit back, and wait for it to finish. This may take a while.
   12. Run MongoDB. Instructions here: https://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/
   13. Run the command **grunt serve** and that's it! You'll have a browse window popup to the ClassAct application running on your machine! You're all done. You can log in using the built in account for the development environment created from seed.js: admin@admin.com/admin
-  * Some notes:
+  - Some notes:
     * I would recommend the use of an IDE, such as WebStorm. Or Sublime.
     * LiveReload is already configured. So if you make any changes to the code, you'll see your browser page reload, and run the latest code!  
     * **grunt serve** runs the server in development mode by default. To run it in production mode, run **grunt build** and **grunt serve:dist** 
