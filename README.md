@@ -39,19 +39,19 @@
 ## Developer's Guide
 
 - Developing and running locally 
-  1) Install **Node.js** from https://nodejs.org/, make sure it is available in your system path
-  2) Install **Git** from https://git-scm.com/, make sure it is available in your system path
-  3) Install **MongoDB** from https://www.mongodb.org/, make sure it is available in your system path
-  4) Install **Ruby** from https://www.ruby-lang.org/, make sure it is in your system path, and install **SASS** by running the command **gem install sass**
-  5) Install **ImageMagick** from http://www.imagemagick.org, make sure it is available in your system path
-  6) Set up your machine for node-gyp, more instructions here: https://github.com/nodejs/node-gyp (For example, you'll need to install **Python v2.7.x** and if using Windows: Visual Studio Express).
-  7) Drop to the command line and change directory to the parent folder you'll download the ClassAct project to
-  8) Run the command **npm install -g grunt-cli bower** 
-  9) Use git to get the ClassAct project from GitHub. Instructions on how to do that: https://help.github.com/articles/fetching-a-remote/
-  10) There should be a directory named "ClassAct" in the project folder, change directory to it
-  11) Run the command **npm install**. Get a fresh cup of coffee, sit back, and wait for it to finish. This may take a while.
-  12) Run MongoDB. Instructions here: https://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/
-  13) Run the command **grunt serve** and that's it! You'll have a browse window popup to the ClassAct application running on your machine! You're all done. You can log in using the built in account for the development environment created from seed.js: admin@admin.com/admin
+  1. Install **Node.js** from https://nodejs.org/, make sure it is available in your system path
+  2. Install **Git** from https://git-scm.com/, make sure it is available in your system path
+  3. Install **MongoDB** from https://www.mongodb.org/, make sure it is available in your system path
+  4. Install **Ruby** from https://www.ruby-lang.org/, make sure it is in your system path, and install **SASS** by running the command **gem install sass**
+  5. Install **ImageMagick** from http://www.imagemagick.org, make sure it is available in your system path
+  6. Set up your machine for node-gyp, more instructions here: https://github.com/nodejs/node-gyp (For example, you'll need to install **Python v2.7.x** and if using Windows: Visual Studio Express).
+  7. Drop to the command line and change directory to the parent folder you'll download the ClassAct project to
+  8. Run the command **npm install -g grunt-cli bower** 
+  9. Use git to get the ClassAct project from GitHub. Instructions on how to do that: https://help.github.com/articles/fetching-a-remote/
+  10. There should be a directory named "ClassAct" in the project folder, change directory to it
+  11. Run the command **npm install**. Get a fresh cup of coffee, sit back, and wait for it to finish. This may take a while.
+  12. Run MongoDB. Instructions here: https://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/
+  13. Run the command **grunt serve** and that's it! You'll have a browse window popup to the ClassAct application running on your machine! You're all done. You can log in using the built in account for the development environment created from seed.js: admin@admin.com/admin
   * Some notes:
     * I would recommend the use of an IDE, such as WebStorm. Or Sublime.
     * LiveReload is already configured. So if you make any changes to the code, you'll see your browser page reload, and run the latest code!  
@@ -96,25 +96,25 @@
   * If you don't know about OpenShift, it's RedHat's PaaS (Platform as a Service), which has free hosting available. Check it out at http://www.openshift.com
   * OpenShift already has ImageMagick, so you don't need to worry about installing that
   * Steps
-    1) Create an OpenShift account if you don't already have one
-    2) Install and set up OpenShift Client Tools: https://developers.openshift.com/managing-your-applications/client-tools.html
-    3) cd to your ClassAct project folder and run **grunt build**
-    4) Run the command **npm install -g yo** and **npm install yeoman-generator@0.17.7 chalk@0.4.0**
-    5) Run the command **yo ./openshift**. This will give you several prompts and allow you to create your application on OpenShift. Note the application name, which will be used in the commands below. And note the other useful information it provides such as the URL for your live application (that info can also be gotten with the command **rhc app-show -v <app name>**).
-    6) Run the command **rhc set-env SESSION_SECRET=xxx -a <app name>**. This will become the secret all user sessions are encrypted with.
-    7) Run the command **rhc set-env EMAIL_MODE=<production/staging> -a <app name>**. Production mode will use the production SMTP settings, and staging will use the default for development.
-    8) If you'll be using Facebook Login, set up your application on Facebook and run the following commands:
-      1) **rhc set-env FACEBOOK_ID=xxx -a <app name>**
-      2) **rhc set-env FACEBOOK_SECRET=xxx -a <app name>**
-    9) If you'll be using an alternative DNS hostname that points to the default hostname OpenShift creates for your application, run the command **rhc alias add <app name> www.xyz.com** (replace xyz.com with the full hostname of your application) 
-    10) For all the changes to take affect, run **rhc app-restart -a <app name>**
+    1. Create an OpenShift account if you don't already have one
+    2. Install and set up OpenShift Client Tools: https://developers.openshift.com/managing-your-applications/client-tools.html
+    3. cd to your ClassAct project folder and run **grunt build**
+    4. Run the command **npm install -g yo** and **npm install yeoman-generator@0.17.7 chalk@0.4.0**
+    5. Run the command **yo ./openshift**. This will give you several prompts and allow you to create your application on OpenShift. Note the application name, which will be used in the commands below. And note the other useful information it provides such as the URL for your live application (that info can also be gotten with the command **rhc app-show -v \<app name\>**).
+    6. Run the command **rhc set-env SESSION_SECRET=\<xxx\> -a \<app name\>**. This will become the secret all user sessions are encrypted with.
+    7. Run the command **rhc set-env EMAIL_MODE=\<production/staging\> -a \<app name\>**. Production mode will use the production SMTP settings, and staging will use the default for development.
+    8. If you'll be using Facebook Login, set up your application on Facebook and run the following commands:
+      1. **rhc set-env FACEBOOK_ID=\<xxx\> -a \<app name\>**
+      2. **rhc set-env FACEBOOK_SECRET=\<xxx\> -a \<app name\>**
+    9. If you'll be using an alternative DNS hostname that points to the default hostname OpenShift creates for your application, run the command **rhc alias add \<app name\> \<www.xyz.com\>** (replace xyz.com with the full hostname of your application) 
+    10. For all the changes to take affect, run **rhc app-restart -a \<app name\>**
   * That's it! Your application is all set, and should be live on the URL that OpenShift set up for you. 
 
 - Deploying code updates to OpenShift
   * When you make code updates, here are the steps to deploy them to your existing OpenShift application running ClassAct:
-    1) cd to your ClassAct project folder and run **grunt build**
-    2) Run **grunt buildcontrol:openshift --openshift_target=<app name>**
-    3) (Optional, if you have server side changes): **rhc app-restart -a <app name>**
+    1. cd to your ClassAct project folder and run **grunt build**
+    2. Run **grunt buildcontrol:openshift --openshift_target=\<app name\>**
+    3. (Optional, if you have server side changes): **rhc app-restart -a \<app name\>**
 
 
 ## User and Administrator Guide
