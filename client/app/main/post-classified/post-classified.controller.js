@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('classActApp')
-  .controller('PostClassifiedCtrl', function ($scope, $translate, Auth, Classified, $rootScope, $timeout, blockUI, ClassifiedResource, $state, CONSTANTS, notify) {
+  .controller('PostClassifiedCtrl', function ($scope, $translate, Auth, Classified, $rootScope, $timeout, blockUI, ClassifiedResource, $state, CONSTANTS, notify, $location) {
     $scope.CONSTANTS = CONSTANTS;
 
     $scope.isLoggedIn = Auth.isLoggedIn();
@@ -281,6 +281,7 @@ angular.module('classActApp')
               $scope.message = '';
             },20000);
             blockUI.stop();
+            $location.path("/"); //[Adeel Mufti, 4/14/16] Added this to redirect user after successful submit, since people don't seem to understand their classified was submitted. Hopefully this will help
           })
           .catch( function(err) {
             $scope.message = $translate.instant('CLASSIFIED_POST_ERROR',{message: err.data.message});
