@@ -13,6 +13,7 @@
       <ul class="nav navbar-nav">
         <li ng-class="{active: isActive('/')}"><a ng-href="/">{{'HOME_PAGE'|translate}}</a></li>
         <li ng-class="{active: isActive(postClassifiedUrl)}"><a ng-href="{{postClassifiedUrl}}">{{'POST_CLASSIFIED_TITLE'|translate}}</a></li>
+        <li ng-class="{active: isActive(siteUtilizationUrl)}"><a ng-href="{{siteUtilizationUrl}}">{{'SITE_UTILIZATION_TITLE'|translate}}</a></li>
         <li ng-show="isAdmin()" ng-class="{active: isActive(adminUserUrl) || isActive(adminClassifiedUrl) || isActive(adminMiscellaneousUrl)}" uib-dropdown>
           <a href="#" uib-dropdown-toggle><span class="text-danger">Admin</span> <span class="caret"></span></a>
           <ul uib-dropdown-menu>

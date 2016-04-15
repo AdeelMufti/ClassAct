@@ -301,6 +301,7 @@ angular.module('classActApp', [
       POSTED_OVER_60_DAYS_AGO: "Posted Over 60 Days Ago",
       POSTED_OVER_90_DAYS_AGO: "Posted Over 90 Days Ago",
       POSTED_OVER_180_DAYS_AGO: "Posted Over 180 Days Ago",
+      SITE_UTILIZATION_TITLE: "Site Utilization",
     };
     translations['fr'] = {
       THIS_LANGUAGE_NAME: "Français",
@@ -541,6 +542,7 @@ angular.module('classActApp', [
       POSTED_OVER_60_DAYS_AGO: "Publié il y a plus de 60 jours",
       POSTED_OVER_90_DAYS_AGO: "Publié il y a plus de 90 jours",
       POSTED_OVER_180_DAYS_AGO: "Publié il y a plus de 180 jours",
+      SITE_UTILIZATION_TITLE: "Utilisation Du Site",
     };
 
     var $cookies;

@@ -21,12 +21,18 @@ angular.module('classActApp')
         controller: 'AboutCtrl',
         title: 'ABOUT_TITLE'
       })
+      .state('site-utilization', {
+        url: '/site-utilization',
+        templateUrl: 'app/main/site-utilization/site-utilization.html',
+        controller: 'SiteUtilizationCtrl',
+        title: 'SITE_UTILIZATION_TITLE'
+      })
       .state('view-classified', {
         url: '/view-classified/:classifiedId',
         templateUrl: 'app/main/view-classified/view-classified.html',
         controller: 'ViewClassifiedCtrl',
         title: 'VIEW_CLASSIFIED_TITLE'
-      });
+      })
 
 
   });

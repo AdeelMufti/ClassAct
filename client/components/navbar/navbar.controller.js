@@ -15,6 +15,7 @@ angular.module('classActApp')
     $scope.settingsUrl = $state.get('settings').url;
     $scope.deregisterUrl = $state.get('deregister').url;
     $scope.resetPasswordUrl = $state.get('reset-password').url;
+    $scope.siteUtilizationUrl = $state.get('site-utilization').url;
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
