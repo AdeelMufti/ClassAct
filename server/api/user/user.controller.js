@@ -351,7 +351,7 @@ exports.getAll = function(req, res) {
   var user = req.user;
   var query = User.find({});
   applyStandardFiltersToUserQuery(query,user);
-  query.sort('-created -_id');
+  query.sort('-created');
   if(window && window!=0)
     query.limit(window);
   if(startTime) {

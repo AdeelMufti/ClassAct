@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
     Category = require('./category.model');
 
 var ClassifiedSchema = new Schema({
-  created: { type: Date, default: Date.now },
+  created: { type: Date, default: Date.now, index: true },
   user: { type: Schema.Types.ObjectId, ref: 'User' },
   email: String,
   categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
@@ -19,7 +19,8 @@ var ClassifiedSchema = new Schema({
     set: function(posted) {
       this._previousPosted = this.posted;
       return posted;
-    }
+    },
+    index: true
   },
   images: [{image: { data: Buffer }, thumbnail: {data: Buffer }}],
   ipAddress: { type: String },

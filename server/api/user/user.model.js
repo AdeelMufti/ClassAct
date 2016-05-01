@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     default: false
   },
   approved: { type: Boolean, default: false },
-  created: { type: Date, default: Date.now },
+  created: { type: Date, default: Date.now, index: true },
   createdIpAddress: String,
   tokens: [{key: String , value: String}],
   verified: {

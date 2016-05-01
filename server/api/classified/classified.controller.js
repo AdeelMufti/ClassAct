@@ -241,7 +241,7 @@ exports.getPosted = function(req, res) {
           ]
         });
         applyStandardFiltersToClassifiedQuery(query,user);
-        query.sort('-posted -_id');
+        query.sort('-posted');
         if(window && window!=0)
           query.limit(window);
         if(startTime) {
@@ -267,7 +267,7 @@ exports.getAll = function(req, res) {
   var query = Classified.find({});
   applyStandardFiltersToClassifiedQuery(query,user);
   query.select('-images -categories -content -location -contact -__v -flaggedBy._id -flaggedBy.date');
-  query.sort('-created -_id');
+  query.sort('-created');
   if(window && window!=0)
     query.limit(window);
   if(startTime) {
