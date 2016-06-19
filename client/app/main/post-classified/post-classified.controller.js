@@ -4,8 +4,11 @@ angular.module('classActApp')
   .controller('PostClassifiedCtrl', function ($scope, $translate, Auth, Classified, $rootScope, $timeout, blockUI, ClassifiedResource, $state, CONSTANTS, notify, $location) {
     $scope.CONSTANTS = CONSTANTS;
 
-    $scope.isLoggedIn = Auth.isLoggedIn();
-    $scope.currentUser = Auth.getCurrentUser();
+    Auth.isLoggedInAsync(function(loggedIn) {
+      $scope.isLoggedIn = loggedIn;
+      if(loggedIn)
+        $scope.currentUser = Auth.getCurrentUser();
+    });
 
     $scope.signupUrl = $state.get('signup').url;
     $scope.loginUrl = $state.get('login').url;
