@@ -287,7 +287,24 @@ angular.module('classActApp')
             $location.path("/"); //[Adeel Mufti, 4/14/16] Added this to redirect user after successful submit, since people don't seem to understand their classified was submitted. Hopefully this will help
           })
           .catch( function(err) {
-            $scope.message = $translate.instant('CLASSIFIED_POST_ERROR',{message: err.data.message});
+            var hostname = $location.host();
+            var port = $location.port();
+            if(port!=80)
+              hostname+=":"+port;
+            if(err.status==504)
+            {
+              $scope.message = $translate.instant('GATEWAY_TIMEOUT_DURING_CLASSIFIED_POST',{hostname:hostname});
+              notify.config({
+                startTop:75,
+                duration:0,
+                position:'center'
+              });
+              notify({
+                messageTemplate:"<span>"+$scope.message+"</span>"
+              });
+            }
+            else
+              $scope.message = $translate.instant('CLASSIFIED_POST_ERROR',{message: err.data.message});
             blockUI.stop();
           });
       }
