@@ -40,8 +40,8 @@ angular.module('classActApp', [
       "/assets/images/mali-40.jpg"
     ],
 
-    APP_VERSION: '1.0.0',
-    APP_VERSION_DATE: 'Mar 01, 2016', //In the format 'Mon DD, YYYY'
+    APP_VERSION: '1.0.1',
+    APP_VERSION_DATE: 'Feb 16, 2017', //In the format 'Mon DD, YYYY'
   })
 
   .constant('translations', {})
@@ -303,6 +303,7 @@ angular.module('classActApp', [
       POSTED_OVER_180_DAYS_AGO: "Posted Over 180 Days Ago",
       SITE_UTILIZATION_TITLE: "Site Utilization",
       GATEWAY_TIMEOUT_DURING_CLASSIFIED_POST: "<b>Note:</b> There was an error submitting your classified. It took too long for the server to respond. Your classified may or may not have been posted. Please check by visiting <a href='http://{{hostname}}'>http://{{hostname}}</a> to see if it posted. If not, please try posting it again.",
+      ADVERTISEMENT: "Advertisement",
     };
     translations['fr'] = {
       THIS_LANGUAGE_NAME: "Français",
@@ -545,6 +546,7 @@ angular.module('classActApp', [
       POSTED_OVER_180_DAYS_AGO: "Publié il y a plus de 180 jours",
       SITE_UTILIZATION_TITLE: "Utilisation Du Site",
       GATEWAY_TIMEOUT_DURING_CLASSIFIED_POST: "<b>Note:</b> Il y a une erreur dans la publication de votre annonce. Le temps de réponse du serveur est dépassé. Votre annonce a pu être postée ou non. Merci de vérifier en vous rendant sur <a href='http://{{hostname}}'>http://{{hostname}}</a> pour vérifier si elle a été publié. Si votre annonce n’apparaît pas, merci de réessayer.",
+      ADVERTISEMENT: "Publicité",
     };
 
     var $cookies;

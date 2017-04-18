@@ -1,0 +1,553 @@
+------------------------------------ToDo------------------------------------
+NOW:
+-update on GitHub
+
+LATER:
+-translate to bamana
+-Move translations to their own file to be loaded from CustomLoader like done here http://plnkr.co/edit/NJh3Dz
+-Prevent a non-admin user, or anyone from the same IP, from posting more than 5 classifieds per day
+-If too many images on small screen (mobile phone, ipad, etc), the images take up too much space. "Collapse" them just like the classified content is collapsed with a "knob" to expand the content.
+-make slideshow for images instead of having them open a new browser tab/window
+-Admin feature to send email to all users from ClassAct with any custom message: Add to Admin->Misc. show message box in each configured language. Add check boxes to 1) select all users, or 2) verified only users, or 3) email subscribed users. Allow selection of individual users
+-Feature to "Save" (star? use star icon) classifieds under a user account, to recall it later
+-Detect duplicate classifieds posted within the same day (or same week?) and prevent posting
+-Flag feature: add facility to capture reason why user is flagging it (spam? illegal? overposting? etc.)
+-flag feature: modify so that only logged in/verified users can flag an account?
+-Make content input box with rich text: https://github.com/fraywing/textAngular
+-wire up google+/twitter logins
+-Allow updating/edit of existing classified to classified submitters or admins
+-Ability to attach documents (pdf, word, etc) to a classified
+-Ability to link account together from facebook/local/whatever, regardless what authentication provider was used to initially create the account
+-add captcha for sign ups and classified submits (unless logged in with approved/admin account), and a feature for admin to turn it on or off
+-Move to constants: number of images allowed per classified, max size of image, 5 flags means removed, etc etc etc
+-reeval and use correct http error code for the type of error being sent
+-errors displayed in settings need to be set to danger color
+-to user model/controller/admin user tool: add last login information--ip, browser, date, etc. Don't submit in socket (can be done by using User.update, not .save). Filter accordingly for standard fields.
+-admin pages won't start loading more if filter results too short. infinite-scroll-parent="true" doesn't work (makes everything load)
+-move most translations from API to client using translationKey (or switch everything to "messageKey" instead of "translationKey"?)
+-user field error checking in api/classified/(multipleUpdate,multipleDelete,emailDigest). e.g. missing fields, bad data
+-email only users be able to regenrate verification token just like they can delete password
+-Align field labels and values in expand details area for Admin: Users and Classifieds.
+-Admin user page: show all classifieds for each user
+-Create link in message "An account exists with your email. Please sign in directly. If you don't remember your password, please use the Forgot Password link."
+-Instead of infinite scrolling, use this module so classifieds out of view don't take up memory/resources: https://github.com/angular-ui/ui-scroll
+-Abstract out directives (such as the email spam message) from client/app.js to their own file so any number of custom directives can be defined in a singular place
+-User settings: Change email(re-send verification?)/name
+-When user logs out, socket emit logout in all tabs in same browser for given user (but don't send in different browser)
+-Instead of using /view-classified/<alphanumeric id>, create a text id from the title for URL
+-give preview before posting classified
+-take out all warnings detected by webstorm
+-change 404 page
+-look into all these and clean up if not needed: Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less
+
+
+
+
+
+DONE not checked in:
+
+
+
+
+DONE checked in:
+-Set up git / check into bitbucket
+-Ability to create pseudo accounts
+-Ability to convert pseudo accounts to full accounts
+-Set up angular translate
+-do verification "process" on email sign up, account sign up, or email-to-account conversion. Use https://github.com/andris9/Nodemailer for emailing, and https://github.com/mashpie/i18n-node for internationalization. Use classact@synappze.com f$jfJhq3
+-Add language field to user object. Upon sign up, default to language selected in cookie/angular-translate. Upon sign in, set language to user's preferred language
+-Install async.js on client/server, convert user.controller create code to use waterfall
+-add classact version number and stuff somewhere in constants
+-implement load wait bar: https://github.com/chieffancypants/angular-loading-bar
+-forgot password reset capability (make sure it is for a full account): http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/
+-add asterisk around required fields
+-move create classified into it's own page, add to navbar, set up proper service using $resource for interaction with API (as is done for Auth/User)
+-while posting classified: look up user using auth token or email sent in & save with resolved user (otherwise just save email). If user is logged in and approved, or is admin, then post automatically. Check if there's a user/email, or required fields, or hard lengths in the API
+-New classified post page: Add message if not logged in about how the classified will not be posted automatically if an approved user, unless user logs in.
+-When switching languages, make sure all date format and language are changed too-if user logged in and language switched, save in database (through Auth, use promise so non-blocking? understand promises)
+-Fix: creating new classified automatically adds it to listing on home page. Probably uses socket (get understanding for socket setup)
+-Use classified service to share classified data from it among views
+-Delete classified feature in settings:
+  -in server controller make sure it is the user's or an admin
+  -Only show classifieds owned by the user
+-Modify "get all" for classified: in main.html limit to posted using angular filter. In classified controller in API: for non-logged in users just return all posted. for logged-in non-admins return all posted + user's own. for admins return all
+-When user logs out or logs in refresh classifieds in classifieds service
+-fix issue with cookie expiry causing cookie to delete when browser restarted
+-log IP in classified submit
+-Clicking on BamaKool on header takes the user back to home page
+-Added location to to classified form/schema/display
+-configure websocket port to come from constants if not localhost
+-create my and christophe's account using seed, put on openshift as a "staging" environment
+-bug: post classified button not showing up in staging
+-bug: database not being seeded for production
+-Set version number for app in json file
+-when saving classified, "sanitize" returned&emitted classified (take out user's full record that is returned, etc)
+-added no caching to headers in express.js
+-abstract out email configuration and allow production/staging/development level settings
+-make sign up/login buttons primary buttons
+-Delete classified in settings: confirm with user first
+-Add heading title to all pages
+-In password change, wrong current password still gives message of successful password change
+-add fontawesome to everything
+-add footer template to each page
+-add favico
+-angular translate (app.js): use registerAvailableLanguageKeys, make sure determinePreferredLanguage actually works
+-Set title based on $state
+-set up and translate all messages/text added thus far
+-tracking sockets:
+  -from client emit login event from login controller to socket with token AND in socketio.js->socketio.on('connection' check token in cookie (socket.handshake.headers.cookie), send both to same function that adds authenticated user object resolved from token to socket itself
+  -from client emit logout event to socket AND socketiojs->socket.on('disconnect', send to a function that removes authenticated user object from socket
+-socket classified delete, don't emit whole ad, just id
+-problem: When saving classifieds, they get emitted only if they're posted... so an unapproved user won't see their classified emitted back to them once logged in and posts. Solution: for both create and delete of classified, if posted then emit to all already as usual, else if not posted selectively emit to socket of user logged in who classified belongs to or to admins
+-for user related emits create a user.socket.js just like a classified.socket.js
+-Categories: Create model with ID and en/fr translations and sort order.
+-Categories: Put in seed: Vehicles, For Sale, General, Furniture, Services, Housing, Events / Vehicules, articles à vendre, general, meubles, services, logements, événements
+-Add categories to classifieds form/schema/display
+  -use http://isteven.github.io/angular-multi-select/#/main
+  -Set up in main.html to allow users to narrow
+-Add images to classified form/schema/display
+-Add icons to categories. No categories selected means all categories. Default to no categories selected
+-In post classified form, show error at bottom when validation issues
+-Add photo to home page banner
+-Added resposive detection (xs, sm, md, lg)
+-Asset images not checked in, check them in and check what else isn't checked in
+-wire up facebook
+-take out google+/twitter signup stuff
+-Feature to rotate image while posting
+-put up spinner before resizing, this way: https://github.com/danialfarid/ng-file-upload/issues/1137
+-Added feature to show temporary thumbnail while uploading, and clicking on thumbnail to see image uploaded
+-Added "About" page with credits
+-Moved header to its own component
+-Converted server api so that tokens (verification, password reset, etc) are an array of key/value pairs in the user model
+-Add email/name to settings page
+-if user logged in and verification just happened, update user object from db
+-User settings:
+  -Be able to generate verify email again
+  -Ability to change language explicitly through settings
+-Revamped menu. Rearranged/improved code. Added drop down for extra items
+-During signup, limit name/email/password min and max lengths and requiredness in both server and client
+-server API user/classified error handling revamp: shared functions and cosistent programming, proper http codes sent, etc. Test both in client and server.
+-During classified post, ensure email is email using misc.validateEmail
+-on sign up, if any ads exist for the email, associate them to the account
+-upon request for password reset for email-only account: prevent and give message to sign up for full account
+-prevent password reset for non-local accounts (such as facebook)
+-deregistration process partially done
+-abstract logout function out into Auth service
+-page to deregister/delete account, send verification, logout user on all sockets
+-add "reset password" link (when not logged in) to navbar more menu
+-login: USER_IS_NOT_LOCAL needs to be emitted if not local
+-clarified and made more prominent: messages on sign up page
+-bug in UI: if selecting multiple files at once, more than 10 will be allowed through. upgrade ng-file-upload to 11.1.0 'ngf-max-files`
+-Update header with pics Chris sent, randomly select
+-in main for select categories alignment use scss instead
+-troubleshoot extra white space on the right side on small screens
+-added padding around main view (classifieds) in mobile
+-wherever an email is generated (verification token, password reset, account delete), give message to user to add whatever@whatever.com to their spam allow list and check spam
+-Fix up notifications a bit
+-full page view of classified. Clicking on delete list in settings takes you to it, or clicking in main
+-Change category so that the icons/sort/etc aren't submitted with each classified, but only once and then looked up in client
+-Took out unnecessary socket unsyncing on window unload, to simplify classified service
+-Converted Categories list to HashMap everywhere
+-move getThumbnailUrl and getImageUrl to Classified resource from main and view-classified controllers
+-modify: send classified thumbnail with classified, and just use that as image source
+-in post classified controller: use "_" object comparison instead of if(String(_image.$$hashKey) == String(image.$$hashKey))
+-bug: aborting the only image upload doesn't reset the post button
+-bug: thumbnail not showing on openshift
+-Redo classifieds:
+  -separate classifieds:
+    -all posted (name variable postedClassifieds and method getPosted, full classified entry) and no need to ever reload
+    -user's classifieds: id, title, created
+  -In settings use user's own classified list, in main show posted
+  -only trigger reload/clearing of user's own classifieds on login/logout
+  -sort user's own classifieds in UI/server by created
+  -sort main posted classified list in UI/server by posted
+  -socket receive: update if already exists in either list, append at top if new in either list
+  -socket delete: check and delete from both lists
+-Limit loading of classifieds in main to a certain number, unless user clicks on "more" and/or scrolls down
+-view classified: add back button if navigated to from app
+-save selected filter categories in main when navigate back and forth
+-bug: getting 401 unauthorized does not clear navbar
+-classified.html: if belongs to current user, or user is admin, add delete
+-basic client side search feature using angular filter in main
+-Ability to sign up with facebook if email only account?
+-Fix jerkiness when loading more classifieds with search/filter
+-Add Contact field
+-Add delay to search box on main page: http://stackoverflow.com/questions/11868393/angularjs-inputtext-ngchange-fires-while-the-value-is-changing
+-double bind static classified data (in classified.html) to improve performance, also in admin (delete users list) and settings (delete classifieds list): https://www.binpress.com/tutorial/speeding-up-angular-js-with-simple-optimizations/135
+-clear selected categories and search keywords on user login/logout
+-Don't show classifieds older than 3 months in posted list
+-Give user visual for verified,approved,admin in settings or navbar
+-Login page: move "Sign Up" button to header
+-Change system so that users automatically get approved upon verification
+  -configurable from constants
+  -Change messages in misc places
+    -post classified page. Logged out: "You are not logged in. Your classified will need to be approved by the administrator. Click here to sign up or login.". Logged in: if approved take out first rule, if not approved "Your account is not approved. Your classified will need to be approved by the administrator."
+    -based on constants.AUTO_APPROVE_VERIFIED_USER, upon verification, change message: Verification complete. ACCOUNT_VERIFIED_MESSAGE (+if constants.AUTO_APPROVE_VERIFIED_USER then ACCOUNT_APPROVED_MESSAGE)
+    -login not verified notify message, add based on constants.AUTO_APPROVE_VERIFIED_USER
+-Modified fields returned with classified based on user logged in (if any)
+-upon login or logout clear posted classifieds list
+-Change webservice url for api/users to "api/user" (singular) to confirm with "api/classified"
+-bug: "unauthorized/logged out" notification shown when invalid password upon login
+-wherever on server side a translations.get() is returned directly, rewire to send translationKey as well
+-latest round of translations
+-Rename "builtIn" to "permanent"
+-Fixed breaking of words inside pre tag on line wrap
+-Feature to "Flag" inappropriate/illegal classifieds
+-setting to turn off classifieds emails/digest
+-change "regenerate verification message from settings" notification when registering as email only user
+-convert rest of settings to hide whatever message after certain seconds
+-Put a checkmark on selected settings (language, email subscriptions)
+-Remove select all and select none from categories dropdown
+-Topmost category looks selected. Create a blank entry on categories drop down, or use this: http://isteven.github.io/angular-multi-select/#/demo-grouping
+-create navbar dropdown admin menu
+-For admin, show ID of each classified, created date, user, flagged by, whatever else
+-When no more classifieds, change "Load More Classifieds" button text to "End Of Classifieds"
+-Added angular-animate
+-Change delete symbol to trash can everywhere
+-Classified admin UI mostly created: get of classifieds, page layout, filter, search, etc
+-Admin classified features done
+-check if socket is not connected, and manually set values when performing an action everywhere socket is used to insert/update/delete. such as on delete user/classified, update user/classified(flagged), etc. Check API index.js's to see where things are updated, and see where those are used
+-going to http://localhost:9000/settings (and other user pages) when not logged in should redirect to login
+-add deregister link to bottom of settings
+-admin functions added to user api controller
+-api user controller update function improvements
+-api misc translate validation errors function improvements
+-user socket setup
+-test all mongoose functions causing socket emits
+-in settings update user fields if socket not available
+-in auth, update current user on user:save if it is the current user
+-node mailer: retry using async.retry: https://github.com/caolan/async#retry
+-add in comments code to create random testing users from seed.js
+-match all, match one option to multi select filters
+-put all toggle controls in settings and in admin tools into a "btn-group"
+-Prevent: when user logged in and deregisters account, logged out occurs twice--once from controller and once from logout event emitted back from socket. Use socket.isConnected
+-Admin features
+  -modify controller and client to include classified.user populated, with user fields included based on current user's role, for getPosted and getAll
+  -show user name/email along with ID in classified.html details for admin, and admin classified tool
+  -Populate flaggedBy user's details of each classified for admins, show user id/name/email in classified.htnl details for admin, and admin classified tool
+  -make admin classifieds user's email searchable
+  -Functionality:
+    -Users
+      -Approve or unapprove full or pseudo users for auto-posting. exclude admins
+      -Verify or unverify full or pseudo users. exclude admins
+      -Make or un-make (except "permanent"'s) full users an admin
+      -delete users (make sure "permanent"'s cannot be deleted)
+-turn content into links: https://docs.angularjs.org/api/ngSanitize/filter/linky
+-digest send UI done
+-use angular double binding :: in html for long lists to improve performance.
+-Select all for filters message: show when all really are selected
+-In post classified page, add a footnote that * means required
+-move admin->digest to its own page, leave admin->Misc empty
+-to user model/controller/admin user tool: add sign up IP. Filter accordingly for standard fields.
+-google analytics setup
+-Add Christophe's website to about page
+-Make main categories single select
+-Add header to sign up page
+-make language select buttons auto generated based on translations
+-move header images to CONSTANTS
+-Admin Digest done
+-Added generic modal
+-Select All/Select All Never Sent feature for admin email digest
+-api->classified controller->emailDigest is not being synchronous. find a way to make it be fully synchoronous
+-when user signs up / deregisters and existing classifieds updated, multiple emit updates to sockets
+-edit api->classified/user controller->applyStandardFiltersTo...() to use the fieldAccessByUserRole defined in model. Test
+-implement capability to emit multiple updates for classifieds
+-implement capability to emit multiple updates for users: copy edits made to classified
+-in classified.socket, when admin sets classified from approved/posted to not approved/not posted, it doesn't emit to regular users, because it doesn't realize it was posted before and posted is null. Add virtual field to track previous field value. Set previous posted value this way, and check it in classified.socket: http://stackoverflow.com/questions/11436071/does-mongoose-provide-access-to-previous-value-of-property-in-presave
+-make all error notifications stay up forever (duration: 0)
+-admin: select all with "actions" drop down (approve all, etc) for users/classifieds
+-rename all delete's/destroy's to removes
+-email digest: limit to verified users in controller. add to admin tool message. test
+-post classified categories select: added an empty group label so the fact that when the drop down opens and first item looks selected, doesn't throw off user visually
+-admin tools: when classified or user updated, add action to notification
+-add categories: free=Gratuit?, wanted=Voulait?
+-admin: select all with "actions" drop down (approve all, etc) for users
+-Took out express-session. No need for it. Hogs up DB space.
+-"Your classified has been submitted and posted." message take away after 15 seconds with $timeout
+-flag feature already flagged shouldn't return a 500
+-flag from different IP won't flag: I think issue is IP is always 127.5.231.129, even for sign ups
+-admin tools: when all selected and deleselect one, set selectAll=false
+-admin tool: after select all and action submitted/performed, select all still checked. uncheck
+-password won't change in settings/reset password
+-View classified directly: Not Posted showing for all classifieds
+-View classified directly: for admin (if use link to go there) doesn't show admin details or delete button
+-posting from phone: photo rotation in thumbnail didn't match rotation on server. rav4 Pics in downloads on phone
+-fix: no classifieds at all, the loading spinner keeps going
+-Updated categories sent by Chris
+0-Change bamakoolproduction to use Chris's Facebook Login credentials. Test.
+0-Change bamakoolproduction to use Chris's Google Analytics Tracker: UA-74843940-1. Test
+0-There are 2 dots in this sentence when posting classified: "Merci de ne pas publier d'annonces illégales ou inappropriées.." please remove the second one
+1-Make it so that any image in the email digest is hyperlinked to the full page classified view, and not just the image
+2-Posting classified page: Add a "Note" message under "Contact" box to let user know their email won't be displayed, and they should enter it in "Contact" or the main classified content. Also, angular linkify contact box
+4-Category selection drop down in main view: since it's in single select mode now, see if there's a way to automatically close the drop down when a category selection is made
+-Expand confirmation of flagged to include duplicates/spam/overpost
+-Turn off websocket logging, and express logging
+-Fix translation in about page (a propos "de")
+-Add rule to post page: no more than 5 ads per day / no spamming / no posting of the same classified (duplicate) within a week period
+-View Classified Page: set title as title of classified
+-Responsive character count for collapsing classified on phone
+-In admin tools: add message with count on how many items match criteria
+-Admin tools: Give load all button, and load more at a time
+-Admin user tool: give "Action" to export selected emails as CSV
+-Bug: sign up page-> email only registration. If password field in full registration filled out, interferes with second form
+-Implement better logging for email digest on server side. Change client side so it doesn't wait for server to send emails.
+-So that space doesn't run out, give admin a convenient/intuitive feature to delete all old classifieds. Filter for posted over 30 days ago
+-put "OR" before "Load all" in admin tools
+-take out block UI in send digest since no longer necessary
+-Popup notification when classified posted with 0 duration
+-Added capability to auto delete classifieds older than x days (default 60)
+-change GA tracker
+-Add ads capability
+
+
+------------------------------------BamaKool System Overview------------------------------------
+-Users can create an account or simply register their email (which creates a "pseudo-account" in the system) to sign up to ClassAct. The account/pseudo-account will need to be verified by sending the user a verification link to click in an email (so no one else can sign them up without their consent). Captcha will need to be used during sign up.
+-All emails from the existing BamaKool list will be given verified pseudo-accounts during first deployment when ClassAct is brought online
+-Pseudo-accounts can be converted to real accounts.
+-Users are subscribed to receiving a digest email of all categories of classifieds by default. Users (pseudo and full) should be able to modify the categories they are subscribed to.
+-Users can also de-register (delete) their account/pseudo-account if they leave Mali
+-Admins will also have a page to add and delete (pseudo or full) accounts (in case requests are sent to admins directly, or over kri@bamakool.com).
+-Users can submit the classifieds in two ways:
+  -1) by emailing kri@bamakool.com as they already do (and the classified gets logged to the database).
+  -2) by submitting a form on the website (which gets emailed to kri@bamakool.com as well).
+  -So essentially all classifieds are in the database, and in the kri@bamakool.com mailbox, regardless of how they were submitted (in case the ClassAct admin wants to process classifieds manually like Christophe already does).
+  -Note 1: for simplicity/usability sake, the user does not need an account/pseudo-account to submit a classified over email or from the website. In this case the classifieds will just need to be approved by the ClassAct administrator before it is posted.
+  -Note 2: for classifieds that are emailed, non-classifieds and spam might get through when ClassAct automatically processes emailed classifieds, and there will be missing information such as category or location. The admin approving the classified will need to clean up the classifieds and specify the missing information.
+  -Note 3: when posting classifieds from the website, captcha will be used
+-Full accounts can be "approved" by the ClassAct admins, and classifieds submitted through the web by approved users are automatically posted. The ClassAct admins have a page for approving/unapproving accounts to allow them to post classifieds automatically.
+-classifieds from unapproved accounts/pseudo-accounts (both from the website and sent over email) get logged in the database (and a copy emailed to kri@bamakool.com) but not posted to the website automatically. The ClassAct admins have a page for approving these classifieds. Once the admin approves the classified, it is posted to the website, and the user is sent an email notifying them that their classified was approved.
+-The users periodically receive a "digest of classifieds" email (a singular email with all the new classifieds in it, since the last time they received the digest). For each classified, there is a link to the classified on the website.
+-The ClassAct admins have a page for sending the digest email. Users get only the classified categories they're subscribed to (by default, that's all of them).
+-On the main website, latest classifieds are displayed on top. When viewing classifieds, user can pick one category, multiple categories, or all categories, and the appropriate classifieds are shown. Classifieds can be clicked on to view a full page detail of the classified. Old classifieds eventually get archived or automatically deleted off the website.
+-User with accounts can delete their classifieds from a page after they are logged in. pseudo-accounts can delete the classified by clicking on a link in a confirmation email that was sent to them after their classified was posted. After deletion, the classified will be taken off the website, and if not already emailed to the digest, taken off the pending list for classifieds that need to be emailed to the digest. ClassAct admins will also be able to delete any and all classifieds.
+-Website should render well on all devices (desktop, laptop, tablet, phone). In the web development world this is called "responsiveness".
+-Website and any automated emails should be multilingual. Option to switch languages on the website can be from a drop-down menu, or small icons/links stating the language name. Default should be french (since most classifieds are in French anyway).
+-Admins have page to make other user admins or remove other admins, except the permanent admin
+-If classified too long (longer than 8 lines let's say), display less of it in the main view. Give a "..." button to expand it. In full page classified view, make sure classified is always fully expanded.
+
+
+
+------------------------------------Deployment/Going Online To Openshift------------------------------------
+-Have two environments: bamakoolstaging and bamakoolproduction
+-Two use multiple rhc accounts: http://stackoverflow.com/questions/16046038/openshift-rhc-setup-using-multiple-accounts
+-Steps to deploy:
+  -set up rhc command line https://developers.openshift.com/en/managing-client-tools.html
+  -In client\app\app.js: set CONSTANTS.SYSTEM_EMAIL, and WEBSOCKET_PORT, and GOOGLE_ANALYTICS_TRACKING_ID, version
+  -In server/config/constants.js: set version
+  -Update version in package.json
+  -Stop node server locally so 'grunt build' from script won't fail
+  -grunt build
+  -mod C:\Users\Adeel\AppData\Roaming\npm\node_modules\generator-angular-fullstack\openshift\index.js for yeo file (path) to replace 'openshift' occurrences with this.deployedName
+  -yo angular-fullstack:openshift <---this will create app on openshift, will ask for name
+  -rhc app-show -v <app name> <--- record this info
+  -rhc set-env SESSION_SECRET=blah -a <app name>
+  -rhc set-env EMAIL_MODE=<production/staging> -a <app name>
+  -rhc set-env FACEBOOK_ID=blah -a <app name>
+  -rhc set-env FACEBOOK_SECRET=blah -a <app name>
+  -rhc alias add <app name> www.xyz.com (such as www.bamakool.com)
+  -For facebook logins: make sure to set correct URL for app in facebook app settings in developer console
+  -grunt buildcontrol:openshift --openshift_target=<app name>
+  -rhc app-restart -a <app name>
+-Steps to push update:
+  update version number and date in client/server constants
+  grunt build
+  grunt buildcontrol:openshift --openshift_target=<app name>
+  (optional: rhc app-restart -a <app name>)
+  ---
+  if not gone through yeoman setup process, just mkdir dist, cd dist, git clone <git url below>. then grunt build. Then cd dist, git add ., git commit -m "", git push origin master
+  ssh -i /cygdrive/c/Users/Adeel/.ssh/id_rsa 56d4fb9f7628e157360001ac@bamakoolproduction-perotin.rhcloud.com
+    tail app-root/logs/nodejs.log
+
+------------------------------------Misc------------------------------------
+-Used this seed: https://github.com/DaftMonk/generator-angular-fullstack
+-Delete all non-default users from dev db:
+  tools->external tools->mongo shell
+  use classact-dev
+  db.users.remove({email: { $nin: ["test@test.com","admin@admin.com"] } } )
+-Update all users:
+  db.users.update({ },{ $set: { emailSubscriptions:['all'] } },{ multi: true })
+-Delete all classifieds:
+  tools->external tools->mongo shell
+  use classact-dev
+  db.classifieds.remove({})
+  db.classifieds.remove({_id: { $gt: new ObjectId("569fd8e0282ae2a811bef98d") }})
+-curl:
+  curl -v -X POST -d "email=sadfsadf@dsfsdfdsf.cc" http://localhost:9000/api/user/misc/generateDeregisterToken
+  curl -v -X PUT -H "Cookie:language=fr" -d "deregisterToken=asdasdasdasdasd" http://localhost:9000/api/user/5693e68b10e5618408de228e/deregister
+  curl -v -X GET -H "authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1Njc3MTNmYWQyZDUzODAwMDliOGQyZTMiLCJpYXQiOjE0NTA5MzQ4ODB9.26mM9GbhmZbaC1MCK_E3adtqXOwXJmFrws-3jdYZTk8" http://localhost:9000/api/classified/569fd8e0282ae2a811bef98d/flag
+  curl -v -X POST -d "email=sadfsadf@dsfsdfdsf.cc" http://localhost:9000/api/user/misc/generateResetPasswordToken
+  curl -v -X POST -d "email=sadfsdfsdf" -H "Cookie:language=fr" http://localhost:9000/api/user/
+  curl -v -X POST -H "Content-Type: application/json;charset=UTF-8" -H "Accept: application/json, text/plain, */*" -d '{"title":"Testing","location":"asdfasdfasd","email":"aasdasd","content":"sadfsadfasdf","categories":[{"_id":"567713fad2d5380009b8d2cd"}]}' http://localhost:9000/api/classified/
+  curl -v -X GET -H "authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1Njc3MTNmYWQyZDUzODAwMDliOGQyZTMiLCJpYXQiOjE0NTA5MzQ4ODB9.26mM9GbhmZbaC1MCK_E3adtqXOwXJmFrws-3jdYZTk8" -H "Cookie:token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1Njc3MTNmYWQyZDUzODAwMDliOGQyZTMiLCJpYXQiOjE0NTA5MzQ4ODB9.26mM9GbhmZbaC1MCK_E3adtqXOwXJmFrws-3jdYZTk8; language=fr" http://localhost:9000/api/user/
+  TEST user auth token:
+  curl -v -X GET -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NmI5OTYzNGNkMWM3MTkwNzg1NTA5NzQiLCJpYXQiOjE0NTUyMDk4NzN9.XY8RaR0JKAeb2AjlSOd5oa0NvPxjpqnaiKpymxdKUVA
+  " http://localhost:9000/api/user/56b99634cd1c719078550974
+
+-async waterfall skeleton:
+    async.waterfall(
+      [
+        function(callback)
+        {
+          callback(null);
+        },
+        function(callback)
+        {
+          callback(null);
+        },
+        function(callback)
+        {
+          callback(null);
+        },
+      ],
+      function(err)
+      {
+        if(err)
+        {
+          console.log(''+err);
+        }
+      }
+    );
+
+-use "grunt serve:dist" to run for production on localhost
+
+-OpenShift bamakoolstaging:
+adeelmufti@gmail.com/28
+C:\Users\Adeel\projects\ClassAct>rhc app-show -v bamakoolstaging
+DL is deprecated, please use Fiddle
+bamakoolstaging @ http://bamakoolstaging-synappze.rhcloud.com/ (uuid: 56cdcfbf2d527151830001e2)
+-----------------------------------------------------------------------------------------------
+  Domain:     synappze
+  Created:    3:43 PM
+  Gears:      2 (defaults to small)
+  Git URL:    ssh://56cdcfbf2d527151830001e2@bamakoolstaging-synappze.rhcloud.com/~/git/bamakoolstaging.git/
+  SSH:        56cdcfbf2d527151830001e2@bamakoolstaging-synappze.rhcloud.com
+  Deployment: auto (on git push)
+  mongodb-2.4 (MongoDB 2.4)
+  -------------------------
+    Gears:          1 small
+    Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+    Database Name:  bamakoolstaging
+    Password:       peEinweTmwUx
+    Username:       admin
+
+-openshift bamakoolproduction:
+C:\Users\Adeel\projects\ClassAct\dist>rhc app-show -v bamakoolproduction
+bamakoolproduction @ http://bamakoolproduction-perotin.rhcloud.com/ (uuid: 56d4fb9f7628e157360001ac)
+----------------------------------------------------------------------------------------------------
+Domain:     perotin
+Created:    2:17 AM
+Gears:      2 (defaults to small)
+Git URL:    ssh://56d4fb9f7628e157360001ac@bamakoolproduction-perotin.rhcloud.com/~/git/bamakoolproduction.git/
+SSH:        56d4fb9f7628e157360001ac@bamakoolproduction-perotin.rhcloud.com
+Deployment: auto (on git push)
+mongodb-2.4 (MongoDB 2.4)
+-------------------------
+Gears:          1 small
+Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+Database Name:  bamakoolproduction
+Password:       6cXkZHm7iU_B
+Username:       admin
+APP_SECRET: ah#hfH64J3fhe2
+FACEBOOK_ID: 1679150082374746
+FACEBOOK_SECRET: 2cc94f53fd483b03ed149f50796572a4
+Google Analytics Tracker: UA-74843940-1
+openshift account : chrisperotin@gmail.com/BKJ2012
+
+Connecting to Openshift MongoDB:
+  -Command on openshift shell: mongo -uadmin -p<above> --host $OPENSHIFT_MONGODB_DB_HOST --port <port> <app name>
+  -Or: port forward using command "rhc port-forward <app name>" and connect to localhost with settings above
+Ssh'ing into Openshift:
+  ssh -i c:\users\adeel\.ssh\id_rsa <ssh url above>
+Getting the environment variables:
+  rhc env list -a <app name>
+Check quota:
+  rhc app-show --gears quota -a <app name>
+
+
+--------------------GitHub--------------------
+https://github.com/AdeelMufti/ClassAct.git
+  -README.md: https://help.github.com/categories/writing-on-github/
+  -Every time uploading revision:
+    -Update version number in README.md, package.json and constants
+    -exclude my own session secrets and constants:
+      -notes.txt
+      -client:
+        -app/main/site-utilization/site-utilization.controller.js
+              translations['en']['SITE_UTILIZATION'] = "Enter your rules, regulations and user guide here.";
+              translations['fr']['SITE_UTILIZATION'] = "Entrez vos règles, règlements et mode d'emploi ici.";
+        -app/main/about/about.html
+              <div class="col-sm-12">Add your about details here.</div>
+        -app/app.js: CONSTANTS
+              WEBSITE_NAME: 'ClassAct',
+              WEBSITE_TITLE: {
+                en: "Classifieds",
+                fr: 'Petites annonces',
+              },
+              WEBSOCKET_PORT: 8000,
+              SYSTEM_EMAIL: "system@email.com",
+              GOOGLE_ANALYTICS_TRACKING_ID: "xx-xxxxxxxx-x", //Comment this line out if you don't want to use Google Analytics
+      -server:
+        -config/constants.js
+              WEBSITE_NAME: 'ClassAct',
+        -config/environment/development.js
+              developmentCatchAllToEmailAddress: 'developer@email.com',
+        -config/environment/email.js
+              systemEmail: function() {
+                if(process.env.EMAIL_MODE=='production')
+                  return 'system@email.com';
+                else
+                  return 'system@staging.com';
+              },
+
+              smtp: function() {
+                if(process.env.EMAIL_MODE=='production')
+                  return {
+                    hostname: 'production.smtp.com',
+                    port: 587,
+                    ssl: false,
+                    username: 'system@email.com',
+                    password: 'production'
+                  };
+                else
+                  return {
+                    hostname: 'staging.smtp.com',
+                    port: 587,
+                    ssl: false,
+                    username: 'system@staging.com',
+                    password: 'staging'
+                  };
+              },
+        -config/seed.js
+              else if(process.env.NODE_ENV=='production')
+              {
+                User.create({
+                    provider: 'local',
+                    role: 'admin',
+                    name: 'Production User',
+                    email: 'user@classact.com',
+                    password: 'classact',
+                    permanent: true,
+                    language: 'en',
+                    approved: true,
+                    verified: true
+                  }, function() {
+                    console.log('Populated production users.');
+                    callback(null);
+                  }
+                );
+              }
+    -Upload to github:
+      -(cd C:\Users\Adeel\projects\GitHub && git clone https://github.com/AdeelMufti/ClassAct)
+      -Copy changes to C:\Users\Adeel\projects\GitHub\ClassAct
+      -cd C:\Users\Adeel\projects\GitHub\ClassAct
+      -git status (to verify changes)
+      -git add . (or git add filenames)
+      -git commit -m ""
+      -git push
+        -AdeelMufti/a95.
+  -Add node and bower modules section
+  -Add application features section: reset password, sign up, admin stuff, etc (regurgitation of synopsis)
+  -User/Admin Guide
+  -Add feature requests
+  -Add link for Backers and Supporters like https://github.com/angular-fullstack/generator-angular-fullstack
+  -Advertise, let mean stack people know

@@ -1,6 +1,6 @@
 {
   "name": "class-act",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "server/app.js",
   "dependencies": {
     "async": "1.4.2",
@@ -20,6 +20,7 @@
     "mongoose": "4.0.8",
     "morgan": "1.7.0",
     "multiparty": "4.1.2",
+    "node-schedule": "^1.2.0",
     "nodemailer": "2.2.1",
     "passport": "0.2.2",
     "passport-facebook": "2.0.0",

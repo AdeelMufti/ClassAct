@@ -65,4 +65,6 @@ angular.module('classActApp')
       return false;
     }
 
+    $scope.isSingleView = true;
+
   });

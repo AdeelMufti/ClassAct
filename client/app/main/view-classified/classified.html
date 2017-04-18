@@ -39,3 +39,9 @@
     </div>
   </div>
 </div>
+<div class="text-center" ng-if="($index!=0 && ($index%4==0) || isSingleView)">
+  <span class="small" style="color:#d3d3d3;">{{'ADVERTISEMENT' | translate}}</span>
+  <div class="text-center" ng-include="'components/ads/bidvertiser.html'"></div>
+  <div class="text-center" ng-include="'components/ads/chitika.html'"></div>
+  <br>
+</div>

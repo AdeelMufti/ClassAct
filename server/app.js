@@ -10,6 +10,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
+var schedule = require("node-schedule");
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -36,6 +37,15 @@ require('./routes')(app);
 // Start server
 server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+});
+
+var dailyRule = new schedule.RecurrenceRule();
+dailyRule.second = 0;
+dailyRule.minute = 0;
+dailyRule.hour = 0;
+var onceADay = schedule.scheduleJob(dailyRule, function(){
+  var classifiedMisc = require('./api/classified/classified.misc');
+  classifiedMisc.routineTasks('DAILY');
 });
 
 // Expose app
