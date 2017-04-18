@@ -50,8 +50,9 @@
   9. Use git to get the ClassAct project from GitHub. Instructions on how to do that: https://help.github.com/articles/fetching-a-remote/
   10. There should be a directory named "ClassAct" in the project folder, change directory to it
   11. Run the command **npm install**. Get a fresh cup of coffee, sit back, and wait for it to finish. This may take a while.
-  12. Run MongoDB. Instructions here: https://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/
-  13. Run the command **grunt serve** and that's it! You'll have a browse window popup to the ClassAct application running on your machine! You're all done. You can log in using the built in account for the development environment created from seed.js: admin@admin.com/admin
+  12. Run the command **bower install**.
+  13. Run MongoDB. Instructions here: https://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/
+  14. Run the command **grunt serve** and that's it! You'll have a browse window popup to the ClassAct application running on your machine! You're all done. You can log in using the built in account for the development environment created from seed.js: admin@admin.com/admin
   - Some notes:
     * I would recommend the use of an IDE, such as WebStorm. Or Sublime.
     * LiveReload is already configured. So if you make any changes to the code, you'll see your browser page reload, and run the latest code!  
@@ -74,6 +75,7 @@
     * server/config/constants.js
       * **WEBSITE_NAME** the server side definition of your website's name, used throughout the application.
       * **AUTO_APPROVE_VERIFIED_USER** server side setting for the same feature set on the client side (see above). Make sure both server and client side values for this constant are the same.
+      * **AUTO_DELETE_CLASSIFIEDS_OLDER_THAN_X_DAYS** delete classifieds automatically that are older than x days (default 60). Set to 0 to disable (keep all classifieds forever).
     * server/config/express.js
       * Most noteworthy is the **app.use(morgan('combined'));** line that is commented out for production usage. Uncomment this out if you'd like express to log all HTTP requests/details (to node's stdout, which node may put in a log file depending on your configuration). Note: on a production server with lots of users, if you're on a free hosting server that has limited disk quota, this may cause it to fill up quickly.
     * server/config/local.env.js - this file allows you to define environment variables on your local development machine, that would be different from a production system. If the variables in this file are already set in node's environment, then these will not be used.
